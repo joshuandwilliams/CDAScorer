@@ -1,6 +1,7 @@
 ---
 permalink: /tutorial/
 title: "CDAScorer Tutorial"
+classes: wide
 ---
 
 Welcome to the CDAScorer package. This package is designed to support in the creation and recording of cell death area (CDA) data in a standardised format. This tutorial will guide you through installing and using it.
