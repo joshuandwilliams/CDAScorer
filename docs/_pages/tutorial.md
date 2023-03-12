@@ -3,7 +3,7 @@ permalink: /tutorial/
 title: "CDAScorer Tutorial"
 ---
 
-Welcome to the cdataml package. This package is designed to support in the creation and recording of cell death area (CDA) data in a standardised format for use in the training of machine learning models. This tutorial will guide you through installing and using it.
+Welcome to the CDAScorer package. This package is designed to support in the creation and recording of cell death area (CDA) data in a standardised format. This tutorial will guide you through installing and using it.
 
 ### Installing the cdataml package:
 
@@ -11,14 +11,14 @@ Install into a conda environment from PyPI.
 
 ```sh
 $ conda activate <my-env>
-(my-env) $ pip3 install cdataml
+(my-env) $ pip3 install cdascorer
 ```
 
 Or install it from GitHub.
 
 ```sh
 $ conda activate <my-env>
-(my-env) $ pip3 install git+https://github.com/joshuandwilliams/cdataml
+(my-env) $ pip3 install git+https://github.com/joshuandwilliams/CDAScorer
 ```
 
 ### Quickstart:
@@ -26,19 +26,19 @@ $ conda activate <my-env>
 Run the package with your own data, where any TIFF images to be used are in a single folder (source folder).
 
 ```sh
-(my-env) $ cdataml-run -s <SOURCE-FOLDER> -f <DATA-FILE> -n <CDA_Per_Leaf>
+(my-env) $ cdascorer-run -s <SOURCE-FOLDER> -f <DATA-FILE> -n <CDA_Per_Leaf>
 ```
 
 Or, run the package on an example image included in the package files.
 
 ```sh
-(my-env) $ cdataml-run -t True
+(my-env) $ cdascorer-test
 ```
 
 Load the help information:
 
 ```sh
-(my-env) $ cdataml-run -h
+(my-env) $ cdascorer-run -h
 ```
 
 ### Detailed information:
@@ -62,36 +62,42 @@ There are four options:
 1. ```-s```: The source folder containing the TIFF images. Defaults to "."
 2. ```-f```: The CSV file to contain the recorded data. If it does not exist, it will be created. Defaults to "cdata.csv"
 3. ```-n```: The number of CDAs per leaf. Defaults to 8.
-4. ```-t```: Defaults to False, but if ```-t True``` supplied, will run the package on an example image.
+4. ```-t```: Defaults to False, but if ```-t True``` supplied, will run the package on an example image. This can be done automatically by running ```cdascorer-test```
 
-#### Recording coordinates and scores with the OpenCV interface:
+#### Recording coordinates and scores:
 
-The command line will guide you through using the program, so please watch the output there.
-
-Upon running the program, the first image will be displayed, with a request for the user to input the number of rows and columns. The user should input first the number of rows by pressing a key between 1 and 9, and then the same for the columns.
+Upon running the program, the first image will be displayed. The user should input the number of rows and columns for that image into the entry boxes and press the "Submit" button.
 
 ![Input_Row_Col](./images/Input_Row_Col.png)
 
-The program will then append the scoring key to the bottom of that image, as well as the metadata corresponding to the first CDA at the top.
+The program will then append the scoring key to the bottom of that image, and the row, column, and position of the current CDA will appear in the left panel.
 
 ![Record_Coords_Score](./images/Record_Coords_Score.png)
 
-Using the metadata, identify the corresponding CDA, drag a box around it, and hit enter. This will record the coordinates of that CDA.
+Using the metadata, identify the corresponding CDA. Left click and drag to draw a bounding box around that CDA. The box can simply be re-drawn if it is incorrect.
 
-Next, input a score between 0 and 6 corresponding to that CDA.
+Then, in the right panel, click the score for that CDA.
 
-The metadata at the top of the image will update, and the process of recording coordinates and scores can be repeated for the next CDA.
+The metadata at the left panel will update, and the process of recording coordinates and scores can be repeated for the next CDA.
+
 
 #### What if there are missing CDAs or leaves?
 
 Sometimes leaves will be damaged, resulting in regions being unintelligible, or just being removed from the image altogether.
 
-If the metadata at the top of the OpenCV window doesn't match anything on the screen, non-existent CDAs and leaves can be skipped.
+Non-existent CDAs and leaves can be skipped by pressing the "Next" or "Skip Leaf" buttons in the left pane of the scoring window.
 
-During the coordinate collecting stage, instead of dragging a box, instead press "ESC" to exit the OpenCV selectROI tool.
 
-Then, to skip to the next CDA, press "s", or to skip to position 1 of the next leaf, press "l".
+#### What if I made a mistake and want to go back?
+
+If you wish to redo a previous score, press the "Prev" button in the left pane of the scoring window, which will return to the last data entry.
+
+When you input new coordinate and score values, they will overwrite the previously existing data for that CDA.
+
 
 #### Exiting the program.
 
-At any stage of the program, the user can press "ESC" to exit. If the user is in the OpenCV selectROI tool, they will have to press "ESC" twice: once to exit selectROI, and once to exit the program.
+If you close the window using the cross in the top left, your current progress will be saved to the output file location and the program will exit.
+
+If you run the program again on the same output file, it will pick up where you left off.
+
