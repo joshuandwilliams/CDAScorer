@@ -70,11 +70,11 @@ The command line will guide you through using the program, so please watch the o
 
 Upon running the program, the first image will be displayed, with a request for the user to input the number of rows and columns. The user should input first the number of rows by pressing a key between 1 and 9, and then the same for the columns.
 
-![Record_Dims](./images/Record_Dims.png)
+![Input_Row_Col](./images/Input_Row_Col.png)
 
 The program will then append the scoring key to the bottom of that image, as well as the metadata corresponding to the first CDA at the top.
 
-![Record_Coords_and_Score](./images/Record_Coords_and_Score.png)
+![Record_Coords_Score](./images/Record_Coords_Score.png)
 
 Using the metadata, identify the corresponding CDA, drag a box around it, and hit enter. This will record the coordinates of that CDA.
 
