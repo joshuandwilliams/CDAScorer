@@ -1,0 +1,3 @@
+include README.md
+include CDAScorer-data/lesion_score_key.jpg
+include CDAScorer-data/test_cda_img.jpg

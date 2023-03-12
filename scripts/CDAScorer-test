@@ -1,0 +1,11 @@
+#!/usr/bin/env python
+
+'''
+CDAScorer-test
+
+Runs CDAScorer-run with the test flag
+'''
+
+import subprocess
+
+subprocess.run(["CDAScorer-run", "-t", "True"])

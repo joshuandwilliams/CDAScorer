@@ -1,0 +1,10 @@
+.idea
+*.pyc
+/dist/
+/build/
+/*.egg-info
+/*.egg
+push_to_pypi*
+.DS_Store
+/testimg/
+*.csv
