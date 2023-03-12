@@ -8,6 +8,7 @@ import math
 import pandas as pd
 from importlib_resources import files
 import io
+import cdascorer
 
 def round_to_even(val):
     return math.ceil(val/2.)*2
@@ -23,7 +24,7 @@ class MainWindow:
         # Loading current image and lesion score key into memory
         self.img_path = metadata.img
         if self.img_path == "test_cda_img.jpg":
-            self.raw_bytes = files('cdataml-data').joinpath(self.img_path).read_bytes()
+            self.raw_bytes = files('cdascorer-data').joinpath(self.img_path).read_bytes()
             self.img = Image.open(io.BytesIO(self.raw_bytes))
         else:
             self.img = Image.open(self.img_path)
@@ -33,7 +34,7 @@ class MainWindow:
         self.resized_img = self.img.resize((round(self.img.width*self.scale_factor), round(self.img.height*self.scale_factor)))
         self.resized_img_tk = ImageTk.PhotoImage(self.resized_img)
 
-        self.key_bytes = files('cdataml-data').joinpath("lesion_score_key.jpg").read_bytes()
+        self.key_bytes = files('cdascorer-data').joinpath("lesion_score_key.jpg").read_bytes()
         self.key = Image.open(io.BytesIO(self.key_bytes))
         self.key_tk = ImageTk.PhotoImage(self.key)
         self.key_scale_factor = self.window_width/self.key.width
@@ -371,7 +372,7 @@ enter a score.
 
     def prev_CDA(self):
         print("Prev CDA")
-        self.metadata = CDAMetadata(self.metadata.img_files, self.dataframe)
+        self.metadata = cdascorer.cdametadata.CDAMetadata(self.metadata.img_files, self.dataframe)
         self.dataframe = self.dataframe[:-1]
         if self.metadata.row == 1 and self.metadata.col == 1 and self.metadata.pos == 1:
             self.scoring_to_grid(self.metadata, self.resized_key_tk)

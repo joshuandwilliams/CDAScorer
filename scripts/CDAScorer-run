@@ -2,7 +2,7 @@
 
 '''Run the tkinter functions'''
 
-import cdataml
+import cdascorer
 import os
 import sys
 import pandas as pd
@@ -57,13 +57,13 @@ def record_cdata(source_folder, df, num_spots):
                    file.name.endswith(".tif")]
 
     # Initialise CDAMetadata Object
-    current_metadata = cdataml.cdametadata.CDAMetadata(image_files, df)
+    current_metadata = cdascorer.cdametadata.CDAMetadata(image_files, df)
     if not current_metadata.score == None:
         current_metadata = current_metadata._update(args.num_spots)
 
     # Loop through image files, starting at current_metadata.image
     root = tk.Tk()
-    main_window = cdataml.tkinterwindow.MainWindow(root, cdata, current_metadata, 1500, args.num_spots)
+    main_window = cdascorer.tkinterwindow.MainWindow(root, cdata, current_metadata, 1500, args.num_spots)
     root.protocol("WM_DELETE_WINDOW", main_window._save_and_quit)
     root.mainloop()
 

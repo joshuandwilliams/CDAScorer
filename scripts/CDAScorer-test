@@ -8,4 +8,4 @@ Runs CDAScorer-run with the test flag
 
 import subprocess
 
-subprocess.run(["CDAScorer-run", "-t", "True"])
+subprocess.run(["cdascorer-run", "-f", "test_cdata.csv", "-t", "True"])
