@@ -206,7 +206,8 @@ this image.
 
         # Right panel containing input boxes
         self.grid_input_info = tk.Label(self.input_frame, text="""
-Enter the values below.
+Enter the row and column
+counts below.
         """, justify=tk.CENTER, font=("Arial", 20))
         self.grid_input_info.place(x=135, y=0, anchor=tk.N)
 
@@ -309,13 +310,14 @@ Number of columns:
 
         # Left panel containing current CDA metadata and navigation buttons
         self.coords_info_label = tk.Label(self.info_frame, text=f"""
-Please left-click and drag
+STEP 1:
+Left-click and drag
 a box around the CDA
 corresponding to the
 following metadata.
 \nRow: {self.metadata.row}
-\nCol: {self.metadata.col}
-\nPos: {self.metadata.pos}
+\nColumn: {self.metadata.col}
+\nPosition: {self.metadata.pos}
         """, width=self.info_width, justify=tk.CENTER, font=("Arial", 20))
 
         self.coords_info_label.place(x=0, y=0, anchor=tk.NW, relwidth=1.0, relheight=1.0)
@@ -346,31 +348,32 @@ following metadata.
 
         # Right panel for clicking score
         self.scoring_info_label = tk.Label(self.input_frame, text="""
-Click the buttons below to
+STEP 2:
+Click a button below to
 enter a score.
         """, width=self.input_width, justify=tk.CENTER, font=("Arial", 20))
         self.scoring_info_label.place(x=135, y=0, anchor=tk.N)
 
         self.button_0=tk.Button(self.input_frame, text="0", font=("Arial", 30), command=lambda:self.enter_score(0), height=2, width=4)
-        self.button_0.place(x=135, y=170, anchor=tk.S)
+        self.button_0.place(x=135, y=180, anchor=tk.S)
 
         self.button_1=tk.Button(self.input_frame, text="1", font=("Arial", 30), command=lambda:self.enter_score(1), height=2, width=4)
-        self.button_1.place(x=80, y=270, anchor=tk.S)
+        self.button_1.place(x=80, y=280, anchor=tk.S)
 
         self.button_2=tk.Button(self.input_frame, text="2", font=("Arial", 30), command=lambda:self.enter_score(2), height=2, width=4)
-        self.button_2.place(x=190, y=270, anchor=tk.S)
+        self.button_2.place(x=190, y=280, anchor=tk.S)
 
         self.button_3=tk.Button(self.input_frame, text="3", font=("Arial", 30), command=lambda:self.enter_score(3), height=2, width=4)
-        self.button_3.place(x=80, y=370, anchor=tk.S)
+        self.button_3.place(x=80, y=380, anchor=tk.S)
 
         self.button_4=tk.Button(self.input_frame, text="4", font=("Arial", 30), command=lambda:self.enter_score(4), height=2, width=4)
-        self.button_4.place(x=190, y=370, anchor=tk.S)
+        self.button_4.place(x=190, y=380, anchor=tk.S)
 
         self.button_5=tk.Button(self.input_frame, text="5", font=("Arial", 30), command=lambda:self.enter_score(5), height=2, width=4)
-        self.button_5.place(x=80, y=470, anchor=tk.S)
+        self.button_5.place(x=80, y=480, anchor=tk.S)
 
         self.button_6=tk.Button(self.input_frame, text="6", font=("Arial", 30), command=lambda:self.enter_score(6), height=2, width=4)
-        self.button_6.place(x=190, y=470, anchor=tk.S)
+        self.button_6.place(x=190, y=480, anchor=tk.S)
 
     # Functions relating to "Scoring" layout
     def _on_button_press(self, event):
