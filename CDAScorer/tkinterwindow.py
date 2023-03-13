@@ -131,9 +131,9 @@ class MainWindow:
             print("End of data")
             self._save_and_quit()
         elif self.metadata.row == 1 and self.metadata.col == 1 and self.metadata.pos == 1:
-            self._scoring_to_grid(self.metadata, self.resized_key_tk)
+            self._scoring_to_grid()
         else:
-            self._grid_to_scoring(self.metadata, self.resized_key_tk)
+            self._grid_to_scoring()
 
     def _scoring_to_grid(self):
         '''
@@ -245,11 +245,11 @@ Number of columns:
 
         if self.metadata.maxrow.isdigit() == False or self.metadata.maxcol.isdigit() == False:
             print("Please only enter integers into the row and column boxes")
-            self._scoring_to_grid(self.metadata, self.resized_key_tk)
+            self._scoring_to_grid()
         else:
             self.metadata.maxrow, self.metadata.maxcol = int(self.metadata.maxrow), int(self.metadata.maxcol)
             #print(f"Number of rows: {self.metadata.maxrow}\nNumber of columns: {self.metadata.maxcol}")
-            self._grid_to_scoring(self.metadata, self.resized_key_tk)
+            self._grid_to_scoring()
 
 
 
@@ -478,12 +478,12 @@ enter a score.
                 print("End of data")
                 self._save_and_quit()
             elif self.metadata.row == 1 and self.metadata.col == 1 and self.metadata.pos == 1:
-                self._scoring_to_grid(self.metadata, self.resized_key_tk)
+                self._scoring_to_grid()
             else:
-                self._grid_to_scoring(self.metadata, self.resized_key_tk)
+                self._grid_to_scoring()
         else:
             print("Please select the ROI before selecting the score")
-            self._grid_to_scoring(self.metadata, self.resized_key_tk)
+            self._grid_to_scoring()
 
     def _skip_spots(self, num_skip: int):
         '''
@@ -509,9 +509,9 @@ enter a score.
                 else:
                     self.metadata._update(self.num_spots)
         if self.metadata.row == 1 and self.metadata.col == 1 and self.metadata.pos == 1:
-            self._scoring_to_grid(self.metadata, self.resized_key_tk)
+            self._scoring_to_grid()
         else:
-            self._grid_to_scoring(self.metadata, self.resized_key_tk)
+            self._grid_to_scoring()
 
     def _prev_CDA(self):
         '''
@@ -525,9 +525,9 @@ enter a score.
         self.metadata = cdascorer.cdametadata.CDAMetadata(self.metadata.img_files, self.dataframe)
         self.dataframe = self.dataframe[:-1]
         if self.metadata.row == 1 and self.metadata.col == 1 and self.metadata.pos == 1:
-            self._scoring_to_grid(self.metadata, self.resized_key_tk)
+            self._scoring_to_grid()
         else:
-            self._grid_to_scoring(self.metadata, self.resized_key_tk)
+            self._grid_to_scoring()
 
     def _save_and_quit(self):
         '''

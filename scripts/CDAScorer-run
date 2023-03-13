@@ -17,7 +17,7 @@ parser.add_argument("-s", "--source_folder", help="folder containing images to a
 parser.add_argument("-f", "--file", help="cdata csv file to update. created if does not exist.", type=str, default="cdata.csv")
 parser.add_argument("-n", "--num_spots", help="the number of spots per leaf. must be consistent across all leaves", type=int, default=8)
 parser.add_argument("-t", "--test", help="use an existing image to test the program. true or false", type=bool, default=False)
-parser.add_argument("-w", "--window_size", help="change the size of the window to fit your screen.", type=int, default=1000)
+parser.add_argument("-w", "--window_width", help="change the size of the window to fit your screen.", type=int, default=1000)
 args = parser.parse_args()
 
 if not os.path.exists(args.source_folder):
