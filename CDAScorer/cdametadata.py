@@ -79,7 +79,7 @@ CURRENT METADATA:
 ----------
             """
 
-        def _update(self, num_spots):
+        def _update(self, num_spots: int):
             '''
             CDAMetadata._update()
 

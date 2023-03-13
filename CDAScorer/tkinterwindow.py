@@ -10,7 +10,7 @@ from importlib_resources import files
 import io
 import cdascorer
 
-def _round_to_even(val):
+def _round_to_even(val: int):
     return math.ceil(val/2.)*2
 
 class MainWindow:
@@ -31,7 +31,7 @@ class MainWindow:
     Each time the state changes (including updating from Scoring to Scoring), the previous objects are destroyed and new objects placed.
 
     '''
-    def __init__(self, root, cdata, metadata, window_width, num_spots):
+    def __init__(self, root, cdata, metadata, window_width: int, num_spots: int):
         '''
         MainWindow()
 
@@ -66,7 +66,6 @@ class MainWindow:
 
         '''
 
-
         self.root = root
         self.dataframe = cdata
         self.metadata = metadata
@@ -74,7 +73,7 @@ class MainWindow:
         self.num_spots = num_spots
 
         # Loading current image and lesion score key into memory
-        self.img_path = metadata.img
+        self.img_path = self.metadata.img
         if self.img_path == "test_cda_img.jpg":
             self.raw_bytes = files('cdascorer-data').joinpath(self.img_path).read_bytes()
             self.img = Image.open(io.BytesIO(self.raw_bytes))
@@ -136,7 +135,7 @@ class MainWindow:
         else:
             self._grid_to_scoring(self.metadata, self.resized_key_tk)
 
-    def _scoring_to_grid(self, metadata, key):
+    def _scoring_to_grid(self):
         '''
         MainWindow._scoring_to_grid()
 
@@ -230,7 +229,7 @@ Number of columns:
         self.input_submit = tk.Button(self.input_frame, text="Submit", command=self._get_entry_values, font=("Arial", 20), height=2, width=6)
         self.input_submit.place(x=80, y=450, anchor=tk.S)
 
-    # Functions relating to "grid" layout
+    # Functions relating to "Grid" layout
 
     def _get_entry_values(self):
         '''
@@ -255,7 +254,7 @@ Number of columns:
 
 
 
-    def _grid_to_scoring(self, metadata, key):
+    def _grid_to_scoring(self):
         '''
         MainWindow._grid_to_scoring()
 
@@ -306,7 +305,7 @@ Number of columns:
             self.resized_img_tk = ImageTk.PhotoImage(self.resized_img)
 
         # Bottom panel containing key
-        self.scoring_label.config(image=key)
+        self.scoring_label.config(image=self.resized_key_tk)
 
         # Left panel containing current CDA metadata and navigation buttons
         self.coords_info_label = tk.Label(self.info_frame, text=f"""
@@ -373,7 +372,7 @@ enter a score.
         self.button_6=tk.Button(self.input_frame, text="6", font=("Arial", 30), command=lambda:self.enter_score(6), height=2, width=4)
         self.button_6.place(x=190, y=470, anchor=tk.S)
 
-    # Functions relating to "scoring" layout
+    # Functions relating to "Scoring" layout
     def _on_button_press(self, event):
         '''
         MainWindow._on_button_press()
@@ -409,6 +408,7 @@ enter a score.
 
         :ivar coords: A list to contain the four scaled, square selection coordinates.
         '''
+
         self.coords = [_round_to_even(self.rect_start_x/self.scale_factor), _round_to_even(self.rect_end_x/self.scale_factor), _round_to_even(self.rect_start_y/self.scale_factor), _round_to_even(self.rect_end_y/self.scale_factor)]
 
         self._make_square_coords()
@@ -425,6 +425,7 @@ enter a score.
         This is done by increasing the length of the smaller side to match the larger, adding half the difference to each coordinate.
 
         '''
+
         hlen = self.coords[1] - self.coords[0] # Horizontal length
         vlen = self.coords[3] - self.coords[2] # Vertical length
         diff = abs(hlen-vlen) # Difference
@@ -455,7 +456,7 @@ enter a score.
             self.coords[2] = selfcoords[2] - (self.coords[3] - self.resized_img_tk.height())
             self.coords[3] = self.resized_img_tk.height()
 
-    def enter_score(self, score):
+    def enter_score(self, score: int):
         '''
         MainWindow.enter_score()
 
@@ -465,6 +466,7 @@ enter a score.
         Then, update the metadata and then the window state accordingly.
 
         '''
+
         self.metadata.score = score
         #print(f"Score entered: {self.metadata.score}")
 
@@ -483,7 +485,7 @@ enter a score.
             print("Please select the ROI before selecting the score")
             self._grid_to_scoring(self.metadata, self.resized_key_tk)
 
-    def _skip_spots(self, num_skip):
+    def _skip_spots(self, num_skip: int):
         '''
         MainWindow._skip_spots()
 
