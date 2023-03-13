@@ -59,11 +59,11 @@ In the image above, the table shows an example row of data which will be recorde
 
 #### Options:
 
-There are four options:
 1. ```-s```: The source folder containing the TIFF images. Defaults to "."
 2. ```-f```: The CSV file to contain the recorded data. If it does not exist, it will be created. Defaults to "cdata.csv"
 3. ```-n```: The number of CDAs per leaf. Defaults to 8.
 4. ```-t```: Defaults to False, but if ```-t True``` supplied, will run the package on an example image. This can be done automatically by running ```cdascorer-test```
+5. ```-w```: The size of the window (specifically, the pixel width of the image to be displayed). Defaults to 1000.
 
 #### Recording coordinates and scores:
 
