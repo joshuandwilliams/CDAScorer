@@ -38,7 +38,13 @@ if args.num_spots <= 0:
     sys.exit("ERROR: number of spots per leaf cannot be less than or equal to zero")
 
 def _save_and_quit(df, file_path):
-    '''Moves the starting file to a dated backup, then updates the working file with the current cdata dataframe'''
+    '''
+    _save_and_quit()
+
+    Moves the starting file to a dated backup.
+    Then, updates the working file with the current metadata dataframe
+
+    '''
     print(f"Saving and Quitting. Your data went to the file: {args.file}")
     # Move Previous Version to Backup and Save Existing Version
     now = datetime.now()
@@ -47,7 +53,18 @@ def _save_and_quit(df, file_path):
     sys.exit()
 
 
-def record_cdata(source_folder, df, num_spots):
+def _record_cdata(source_folder, df, num_spots):
+    '''
+    record_cdata()
+
+    Wrapper function for running the CDAScorer Tkinter object (class MainWindow)
+
+    1. Find the filepaths to all TIFF images in the source folder.
+    2. Initialise metadata object.
+    3. Run the MainWindow Tkinter GUI using these inputs.
+    4. Save the updated metadata dataframe and exit the program.
+
+    '''
     # Find TIF Files in Source Folder of load test img
     if args.test == True:
         image_files = ["test_cda_img.jpg"]
@@ -73,6 +90,6 @@ def record_cdata(source_folder, df, num_spots):
 
 if __name__ == '__main__':
     if args.test == True:
-        record_cdata(None, cdata, args.num_spots)
+        _record_cdata(None, cdata, args.num_spots)
     else:
-        record_cdata(args.source_folder, cdata, args.num_spots)
+        _record_cdata(args.source_folder, cdata, args.num_spots)

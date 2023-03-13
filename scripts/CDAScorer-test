@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 
 '''
-CDAScorer-test
+cdascorer-test
 
-Runs CDAScorer-run with the test flag
+Runs cdascorer-run with the test flag -t
+
+Output found in the file "test_cdata.csv"
+
 '''
 
 import subprocess

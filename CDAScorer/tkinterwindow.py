@@ -10,11 +10,63 @@ from importlib_resources import files
 import io
 import cdascorer
 
-def round_to_even(val):
+def _round_to_even(val):
     return math.ceil(val/2.)*2
 
 class MainWindow:
+    '''
+    MainWindow
+
+    A class to contain the GUI Tkinter window for CDAScorer.
+
+    Contains three window states:
+    1. Initial state defined in __init__. This contains blank objects to define the window structure.
+    2. Grid state. Here the user will input the number of rows and columns of the image displayed.
+    3. Scoring state. Here the user will record the coordinates and score of the CDA matching the metadata provided in the left panel.
+
+    The Grid state only occurs if the current metadata is Row:1, Col:1, Pos:1, otherwise it is the scoring state.
+
+    The Initial state is never seen, since objects from the Grid or Scoring states are placed on top of it.
+
+    Each time the state changes (including updating from Scoring to Scoring), the previous objects are destroyed and new objects placed.
+
+    '''
     def __init__(self, root, cdata, metadata, window_width, num_spots):
+        '''
+        MainWindow()
+
+        Some global variables:
+        :ivar root: The Tkinter root within which the objects are packed
+        :ivar dataframe: The Pandas dataframe to contain the CDA metadata.
+        :ivar metadata: The metadata of the current focal CDA.
+        :ivar window_width: User inputted value defining the width of the image (and therefore size of the application)
+        :ivar num_spots: The number of spots per leaf.
+        :ivar img_path: The path of the image containing the current focal CDA.
+        :ivar raw_bytes: If loading from package data, images must be loaded in a bytes format
+        :ivar img: The image containing the current focal CDA in PIL format.
+        :ivar img_tk: The image containing the current focal CDA in Tkinter format.
+        :ivar scale_factor: The value by which the self.img width needs to be scaled to match self.window_width
+        :ivar resized_img: self.img scaled up or down by self.scale_factor in PIL format
+        :ivar resized_img_tk: self.resized_img in Tkinter format.
+        :ivar key_bytes, key, key_tk, key_scale_factor, resized_key, resized_key_tk: Equivalent to above with img, just for scoring key.
+        :ivar scoring_frame: A frame to contain or hide the scoring key, depending on the window state (bottom panel).
+        :ivar scoring_width: Assigning self.scoring_frame the same width as self.resized_img_tk
+        :ivar scoring_label: If image='', scoring key is hidden. If image='self.resized_key_tk', scoring key is shown.
+        :ivar info_frame: A frame to contain information to direct the user (left panel).
+        :ivar info_height, info_width: The height and width to assign the info_frame.
+        :ivar image_frame, image_height, image_width: Equivalent to above, but for the image frame (central panel)
+        :ivar input_frame, input_height, input_width: Equivalent to above, but for the input frame used to record info (right panel)
+
+
+        Variables specific to the initial state:
+        :ivar temp_img: An image of same size as self.img but blank (placeholder)
+        :ivar info_init: A blank label of the same size as info_frame (placeholder)
+        :ivar temp_img_label: A label containing the temp_image (placeholder)
+        :ivar input_init: A blank label of the same size as input_frame (placeholder)
+
+        '''
+
+
         self.root = root
         self.dataframe = cdata
         self.metadata = metadata
@@ -63,8 +115,8 @@ class MainWindow:
         self.image_frame = tk.Frame(self.root, bd=2, relief=tk.RAISED)
         self.image_height = self.resized_img_tk.height()
         self.image_width = self.resized_img_tk.width()
-        self.label = tk.Label(self.image_frame, image=self.temp_img, height=self.image_height, width=self.image_width)
-        self.label.pack()
+        self.temp_img_label = tk.Label(self.image_frame, image=self.temp_img, height=self.image_height, width=self.image_width)
+        self.temp_img_label.pack()
         self.image_frame.pack(expand=True, side=tk.LEFT)
 
         # Initialise right panel to have info placed over it
@@ -75,20 +127,34 @@ class MainWindow:
         self.input_init.pack()
         self.input_frame.pack(side=tk.LEFT, expand=True)
 
-        # Start
+        # Load the first state
         if self.metadata.end_of_data == True:
             print("End of data")
-            self.save_and_quit()
+            self._save_and_quit()
         elif self.metadata.row == 1 and self.metadata.col == 1 and self.metadata.pos == 1:
-            self.scoring_to_grid(self.metadata, self.resized_key_tk)
+            self._scoring_to_grid(self.metadata, self.resized_key_tk)
         else:
-            self.grid_to_scoring(self.metadata, self.resized_key_tk)
+            self._grid_to_scoring(self.metadata, self.resized_key_tk)
 
-    def scoring_to_grid(self, metadata, key):
+    def _scoring_to_grid(self, metadata, key):
+        '''
+        MainWindow._scoring_to_grid()
+
+        The Grid state, which allows the user to input the number of rows and columns of the current image.
+
+        Variables specific to the Grid state:
+        :ivar img_label: Label to contain the self.img. Placed over self.temp_img_label.
+        :ivar grid_input_info: Label containing directions for Grid state. Placed over self.info_init.
+        :ivar row_info: Label for row entry box. Placed over self.input_init.
+        :ivar row_input: Entry box for row count. Placed over self.input_init.
+        :ivar col_info, col_input: Label and entry box for column. Placed over self.input_init.
+        :ivar input_submit: Button to submit contents of self.row_input and self.col_input. Input must be digit.
+
+        '''
 
         # Remove previous placed objects
         if hasattr(self, "scoring_info_label"):
-            self.grid_info.destroy()
+            self.coords_info_label.destroy()
             self.button_prev.destroy()
             self.button_next.destroy()
             self.button_leaf.destroy()
@@ -161,26 +227,51 @@ Number of columns:
         self.col_input = tk.Entry(self.input_frame)
         self.col_input.place(x=135, y=320, anchor=tk.S)
 
-        self.input_submit = tk.Button(self.input_frame, text="Submit", command=self.get_entry_values, font=("Arial", 20), height=2, width=6)
+        self.input_submit = tk.Button(self.input_frame, text="Submit", command=self._get_entry_values, font=("Arial", 20), height=2, width=6)
         self.input_submit.place(x=80, y=450, anchor=tk.S)
 
     # Functions relating to "grid" layout
 
-    def get_entry_values(self):
+    def _get_entry_values(self):
+        '''
+        MainWindow._get_entry_values()
+
+        Updates metadata maxrow and maxcol values with input from self.row_input and self.col_input when submit button pressed.
+
+        If the values entered are not digits, rejects and reloads window.
+
+        '''
+
         self.metadata.maxrow, self.metadata.maxcol = self.row_input.get(), self.col_input.get()
 
         if self.metadata.maxrow.isdigit() == False or self.metadata.maxcol.isdigit() == False:
             print("Please only enter integers into the row and column boxes")
-            self.scoring_to_grid(self.metadata, self.resized_key_tk)
+            self._scoring_to_grid(self.metadata, self.resized_key_tk)
         else:
             self.metadata.maxrow, self.metadata.maxcol = int(self.metadata.maxrow), int(self.metadata.maxcol)
             #print(f"Number of rows: {self.metadata.maxrow}\nNumber of columns: {self.metadata.maxcol}")
-            self.grid_to_scoring(self.metadata, self.resized_key_tk)
+            self._grid_to_scoring(self.metadata, self.resized_key_tk)
 
 
 
 
-    def grid_to_scoring(self, metadata, key):
+    def _grid_to_scoring(self, metadata, key):
+        '''
+        MainWindow._grid_to_scoring()
+
+        The Scoring state, which allows the user to record the bounding box and score of the focal CDA.
+
+        Variables specific to the Scoring state:
+        :ivar canvas: Canvas containing img.self. Users can left-click and drag to draw bounding box. Placed over self.temp_img_label.
+        :ivar coords_info_label: Label containing directions for recording coordinate data for the focal CDA. Placed over self.info_init.
+        :ivar scoring_info_label: Label containing directions for recording score data for the focal CDA. Placed over self.input_init.
+        :ivar button_prev: Button to return to the previous image metadata recorded, allowing it to be overwritten. Placed over self.info_init.
+        :ivar button_next: Button to skip current focal CDA. Placed over self.info_init.
+        :ivar button_leaf: Button to skip to Pos=1 of next leaf. Placed over self.info_init.
+        :ivar button_0, button_1, button_2, button_3, button_4, button_5, button_6: Button to record score for focal CDA. Placed over self.input_init.
+
+        '''
+
         # Remove previous placed objects
         if hasattr(self, "grid_input_info"):
             self.img_label.destroy()
@@ -191,7 +282,7 @@ Number of columns:
             self.col_input.destroy()
             self.input_submit.destroy()
         if hasattr(self, "scoring_info_label"):
-            self.grid_info.destroy()
+            self.coords_info_label.destroy()
             self.button_prev.destroy()
             self.button_next.destroy()
             self.button_leaf.destroy()
@@ -218,7 +309,7 @@ Number of columns:
         self.scoring_label.config(image=key)
 
         # Left panel containing current CDA metadata and navigation buttons
-        self.grid_info = tk.Label(self.info_frame, text=f"""
+        self.coords_info_label = tk.Label(self.info_frame, text=f"""
 Please left-click and drag
 a box around the CDA
 corresponding to the
@@ -228,9 +319,9 @@ following metadata.
 \nPos: {self.metadata.pos}
         """, width=self.info_width, justify=tk.CENTER, font=("Arial", 20))
 
-        self.grid_info.place(x=0, y=0, anchor=tk.NW, relwidth=1.0, relheight=1.0)
+        self.coords_info_label.place(x=0, y=0, anchor=tk.NW, relwidth=1.0, relheight=1.0)
 
-        self.button_prev=tk.Button(self.info_frame, text="Prev", command=self.prev_CDA, font=("Arial", 20), height=2, width=4)
+        self.button_prev=tk.Button(self.info_frame, text="Prev", command=self._prev_CDA, font=("Arial", 20), height=2, width=4)
         self.button_prev.place(x=0, y=0, anchor=tk.NW)
 
         self.button_next=tk.Button(self.info_frame, text="Next", command=lambda: self._skip_spots(num_skip=1), font=("Arial", 20), height=2, width=6)
@@ -250,9 +341,9 @@ following metadata.
         self.canvas.create_image(0, 0, anchor=tk.NW, image=self.resized_img_tk)
         self.canvas.place(x=0, y=0, anchor=tk.NW, relwidth=1.0, relheight=1.0)
 
-        self.canvas.bind("<ButtonPress-1>", self.on_button_press)
-        self.canvas.bind("<B1-Motion>", self.on_move_press)
-        self.canvas.bind("<ButtonRelease-1>", self.on_button_release)
+        self.canvas.bind("<ButtonPress-1>", self._on_button_press)
+        self.canvas.bind("<B1-Motion>", self._on_move_press)
+        self.canvas.bind("<ButtonRelease-1>", self._on_button_release)
 
         # Right panel for clicking score
         self.scoring_info_label = tk.Label(self.input_frame, text="""
@@ -283,8 +374,57 @@ enter a score.
         self.button_6.place(x=190, y=470, anchor=tk.S)
 
     # Functions relating to "scoring" layout
+    def _on_button_press(self, event):
+        '''
+        MainWindow._on_button_press()
+
+        When the user left-clicks on the image canvas, record the starting coordinates.
+
+        :ivar rect_start_x, rect_start_y: The starting x and y coordinate values (will become x1 and y1 after scaling and make_square_coords()).
+
+        '''
+
+        self.rect_start_x, self.rect_start_y = event.x, event.y
+
+    def _on_move_press(self, event):
+        '''
+        MainWindow._on_move_press()
+
+        When the user drags the mouse whilst still holding the left mouse button, store the ending coordinates.
+
+        :ivar rect_end_x, rect_end_y: The end x and y coordinate values (will become x2 and y2 after scaling and make_square_coords()).
+
+        '''
+
+        if self.rect_end_x and self.rect_end_y:
+            self.canvas.delete("rectangle")
+        self.rect_end_x, self.rect_end_y = event.x, event.y
+        self.canvas.create_rectangle(self.rect_start_x, self.rect_start_y, self.rect_end_x, self.rect_end_y, outline="red", tags="rectangle")
+
+    def _on_button_release(self, event):
+        '''
+        MainWindow._on_button_release()
+
+        When the user releases the left mouse button, store the coordinates, scale them, and make the selection square.
+
+        :ivar coords: A list to contain the four scaled, square selection coordinates.
+        '''
+        self.coords = [_round_to_even(self.rect_start_x/self.scale_factor), _round_to_even(self.rect_end_x/self.scale_factor), _round_to_even(self.rect_start_y/self.scale_factor), _round_to_even(self.rect_end_y/self.scale_factor)]
+
+        self._make_square_coords()
+
+        self.metadata.x1, self.metadata.x2, self.metadata.y1, self.metadata.y2 = int(self.coords[0]), int(self.coords[1]), int(self.coords[2]), int(self.coords[3])
+        #print(f"Coordinates selected: {self.metadata.x1}, {self.metadata.x2}, {self.metadata.y1}, {self.metadata.y2}")
+        pass
+
     def _make_square_coords(self):
-        '''Given a set of coordinates created by OpenCV.selectROI(), make them square by increasing smaller side to match longer'''
+        '''
+        MainWindow._make_square_coords()
+
+        Given a set of coordinates collected on self.canvas, make them square.
+        This is done by increasing the length of the smaller side to match the larger, adding half the difference to each coordinate.
+
+        '''
         hlen = self.coords[1] - self.coords[0] # Horizontal length
         vlen = self.coords[3] - self.coords[2] # Vertical length
         diff = abs(hlen-vlen) # Difference
@@ -316,6 +456,15 @@ enter a score.
             self.coords[3] = self.resized_img_tk.height()
 
     def enter_score(self, score):
+        '''
+        MainWindow.enter_score()
+
+        When a score button is pressed by the user, record the score.
+        If no coordinates have been selected, reject and reload window.
+
+        Then, update the metadata and then the window state accordingly.
+
+        '''
         self.metadata.score = score
         #print(f"Score entered: {self.metadata.score}")
 
@@ -325,60 +474,66 @@ enter a score.
             self.metadata = self.metadata._update(8)
             if self.metadata.end_of_data == True:
                 print("End of data")
-                self.save_and_quit()
+                self._save_and_quit()
             elif self.metadata.row == 1 and self.metadata.col == 1 and self.metadata.pos == 1:
-                self.scoring_to_grid(self.metadata, self.resized_key_tk)
+                self._scoring_to_grid(self.metadata, self.resized_key_tk)
             else:
-                self.grid_to_scoring(self.metadata, self.resized_key_tk)
+                self._grid_to_scoring(self.metadata, self.resized_key_tk)
         else:
             print("Please select the ROI before selecting the score")
-            self.grid_to_scoring(self.metadata, self.resized_key_tk)
-
-    def on_button_press(self, event):
-        self.rect_start_x, self.rect_start_y = event.x, event.y
-
-    def on_move_press(self, event):
-        if self.rect_end_x and self.rect_end_y:
-            self.canvas.delete("rectangle")
-        self.rect_end_x, self.rect_end_y = event.x, event.y
-        self.canvas.create_rectangle(self.rect_start_x, self.rect_start_y, self.rect_end_x, self.rect_end_y, outline="red", tags="rectangle")
-
-    def on_button_release(self, event):
-        self.coords = [round_to_even(self.rect_start_x/self.scale_factor), round_to_even(self.rect_end_x/self.scale_factor), round_to_even(self.rect_start_y/self.scale_factor), round_to_even(self.rect_end_y/self.scale_factor)]
-
-        self._make_square_coords()
-
-        self.metadata.x1, self.metadata.x2, self.metadata.y1, self.metadata.y2 = int(self.coords[0]), int(self.coords[1]), int(self.coords[2]), int(self.coords[3])
-        #print(f"Coordinates selected: {self.metadata.x1}, {self.metadata.x2}, {self.metadata.y1}, {self.metadata.y2}")
-        pass
+            self._grid_to_scoring(self.metadata, self.resized_key_tk)
 
     def _skip_spots(self, num_skip):
+        '''
+        MainWindow._skip_spots()
+
+        When "Next" or "Skip Leaf" buttons pressed, update the metadata until the condition is met.
+        Then, update the window state accordingly.
+
+        :cvar num_skips: If 1, just move to next CDA. If self.num_spots, move to start of next leaf.
+
+        '''
+
         print("Skipping")
         # Update once
         self.metadata._update(self.num_spots)
         for skip in range(0, num_skip-1): # If num_spots == 1, do nothing, else repeat 7 more times, stopping if start of next leaf
             # Test if end of data, if so save and quit
             if self.metadata.end_of_data == True:
-                self.save_and_quit()
+                self._save_and_quit()
             elif num_skip == self.num_spots:
                 if self.metadata.pos == 1:
                     break
                 else:
                     self.metadata._update(self.num_spots)
         if self.metadata.row == 1 and self.metadata.col == 1 and self.metadata.pos == 1:
-            self.scoring_to_grid(self.metadata, self.resized_key_tk)
+            self._scoring_to_grid(self.metadata, self.resized_key_tk)
         else:
-            self.grid_to_scoring(self.metadata, self.resized_key_tk)
+            self._grid_to_scoring(self.metadata, self.resized_key_tk)
 
-    def prev_CDA(self):
+    def _prev_CDA(self):
+        '''
+        MainWindow._prev_CDA()
+
+        Go to the previous stored metadata and overwrite it.
+
+        '''
+
         print("Prev CDA")
         self.metadata = cdascorer.cdametadata.CDAMetadata(self.metadata.img_files, self.dataframe)
         self.dataframe = self.dataframe[:-1]
         if self.metadata.row == 1 and self.metadata.col == 1 and self.metadata.pos == 1:
-            self.scoring_to_grid(self.metadata, self.resized_key_tk)
+            self._scoring_to_grid(self.metadata, self.resized_key_tk)
         else:
-            self.grid_to_scoring(self.metadata, self.resized_key_tk)
+            self._grid_to_scoring(self.metadata, self.resized_key_tk)
 
     def _save_and_quit(self):
+        '''
+        MainWindow._save_and_quit()
+
+        If user quits or end of data reached, quit, then destroy the window.
+
+        '''
+
         if messagebox.askokcancel("Quit", "Do you want to quit?"):
             self.root.destroy()
