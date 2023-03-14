@@ -467,7 +467,7 @@ Enter a score below.
             self.coords[2] = 0
 
         if self.coords[3] > self.resized_img_tk.height():
-            self.coords[2] = selfcoords[2] - (self.coords[3] - self.resized_img_tk.height())
+            self.coords[2] = self.coords[2] - (self.coords[3] - self.resized_img_tk.height())
             self.coords[3] = self.resized_img_tk.height()
 
     def _enter_score(self, score: int):
@@ -487,7 +487,6 @@ Enter a score below.
                 self.dataframe = pd.concat([self.dataframe, self.metadata._make_pandas()], ignore_index=True)
                 self.metadata = self.metadata._update(8)
                 if self.metadata.end_of_data == True:
-                    print("End of data")
                     self._save_and_quit()
                 elif self.metadata.row == 1 and self.metadata.col == 1 and self.metadata.pos == 1:
                     self._scoring_to_grid()
@@ -510,6 +509,8 @@ Enter a score below.
         print("Skipping")
         # Update once
         self.metadata._update(self.num_spots)
+        if self.metadata.end_of_data == True:
+            self._save_and_quit()
         for skip in range(0, num_skip-1): # If num_spots == 1, do nothing, else repeat 7 more times, stopping if start of next leaf
             # Test if end of data, if so save and quit
             if self.metadata.end_of_data == True:
@@ -519,10 +520,15 @@ Enter a score below.
                     break
                 else:
                     self.metadata._update(self.num_spots)
-        if self.metadata.row == 1 and self.metadata.col == 1 and self.metadata.pos == 1:
-            self._scoring_to_grid()
-        else:
-            self._grid_to_scoring()
+                    if self.metadata.end_of_data == True:
+                        self._save_and_quit()
+        try:
+            if self.metadata.row == 1 and self.metadata.col == 1 and self.metadata.pos == 1:
+                self._scoring_to_grid()
+            else:
+                self._grid_to_scoring()
+        except:
+            pass
 
     def _prev_CDA(self):
         '''
@@ -548,5 +554,4 @@ Enter a score below.
 
         '''
 
-        if messagebox.askokcancel("Quit", "Do you want to quit?"):
-            self.root.destroy()
+        self.root.destroy()

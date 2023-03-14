@@ -112,6 +112,7 @@ CURRENT METADATA:
                             self.row = 1
                             self.col = 1
                         else:
+                            print("End of Data Reached")
                             self.end_of_data = True
             self.score, self.x1, self.x2, self.y1, self.y2 = None, None, None, None, None
             return self
