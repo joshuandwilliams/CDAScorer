@@ -99,6 +99,14 @@ def _record_cdata(source_folder, df, num_spots):
 
     # Initialise CDAMetadata Object
     current_metadata = cdascorer.cdametadata.CDAMetadata(image_files, df)
+
+    if current_metadata.row == current_metadata.maxrow:
+        if current_metadata.col == current_metadata.maxcol:
+            if current_metadata.pos == args.num_spots:
+                if current_metadata.img == image_files[-1]:
+                    print("Dataset already completed")
+                    sys.exit()
+
     if not current_metadata.score == None:
         current_metadata = current_metadata._update(args.num_spots)
 

@@ -538,7 +538,7 @@ Enter a score below.
 
         '''
 
-        print("Prev CDA")
+        print("Removing previous CDA metadata record. Please input new metadata.")
         self.metadata = cdascorer.cdametadata.CDAMetadata(self.metadata.img_files, self.dataframe)
         self.dataframe = self.dataframe[:-1]
         if self.metadata.row == 1 and self.metadata.col == 1 and self.metadata.pos == 1:
