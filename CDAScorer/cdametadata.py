@@ -113,7 +113,7 @@ CURRENT METADATA:
                             self.col = 1
                         else:
                             self.end_of_data = True
-                        return self
+            self.score, self.x1, self.x2, self.y1, self.y2 = None, None, None, None, None
             return self
 
         def _make_pandas(self):

@@ -126,6 +126,9 @@ class MainWindow:
         self.input_init.pack()
         self.input_frame.pack(side=tk.TOP, anchor=tk.NW, expand=True)
 
+        for score in range(0, 7):
+            self.root.bind(score, lambda event, score=score: self._enter_score(score))
+
         # Load the first state
         if self.metadata.end_of_data == True:
             print("End of data")
@@ -134,6 +137,7 @@ class MainWindow:
             self._scoring_to_grid()
         else:
             self._grid_to_scoring()
+
 
     def _scoring_to_grid(self):
         '''
@@ -362,25 +366,25 @@ Enter a score below.
         """, width=self.input_width, justify=tk.CENTER, font=("Arial", 20))
         self.scoring_info_label.place(x=135, y=0, anchor=tk.N)
 
-        self.button_0=tk.Button(self.input_frame, text="0", font=("Arial", 30), command=lambda:self.enter_score(0), height=1, width=2)
+        self.button_0=tk.Button(self.input_frame, text="0", font=("Arial", 30), command=lambda:self._enter_score(0), height=1, width=2)
         self.button_0.place(x=135, y=140, anchor=tk.S)
 
-        self.button_1=tk.Button(self.input_frame, text="1", font=("Arial", 30), command=lambda:self.enter_score(1), height=1, width=2)
+        self.button_1=tk.Button(self.input_frame, text="1", font=("Arial", 30), command=lambda:self._enter_score(1), height=1, width=2)
         self.button_1.place(x=95, y=190, anchor=tk.S)
 
-        self.button_2=tk.Button(self.input_frame, text="2", font=("Arial", 30), command=lambda:self.enter_score(2), height=1, width=2)
+        self.button_2=tk.Button(self.input_frame, text="2", font=("Arial", 30), command=lambda:self._enter_score(2), height=1, width=2)
         self.button_2.place(x=175, y=190, anchor=tk.S)
 
-        self.button_3=tk.Button(self.input_frame, text="3", font=("Arial", 30), command=lambda:self.enter_score(3), height=1, width=2)
+        self.button_3=tk.Button(self.input_frame, text="3", font=("Arial", 30), command=lambda:self._enter_score(3), height=1, width=2)
         self.button_3.place(x=95, y=240, anchor=tk.S)
 
-        self.button_4=tk.Button(self.input_frame, text="4", font=("Arial", 30), command=lambda:self.enter_score(4), height=1, width=2)
+        self.button_4=tk.Button(self.input_frame, text="4", font=("Arial", 30), command=lambda:self._enter_score(4), height=1, width=2)
         self.button_4.place(x=175, y=240, anchor=tk.S)
 
-        self.button_5=tk.Button(self.input_frame, text="5", font=("Arial", 30), command=lambda:self.enter_score(5), height=1, width=2)
+        self.button_5=tk.Button(self.input_frame, text="5", font=("Arial", 30), command=lambda:self._enter_score(5), height=1, width=2)
         self.button_5.place(x=95, y=290, anchor=tk.S)
 
-        self.button_6=tk.Button(self.input_frame, text="6", font=("Arial", 30), command=lambda:self.enter_score(6), height=1, width=2)
+        self.button_6=tk.Button(self.input_frame, text="6", font=("Arial", 30), command=lambda:self._enter_score(6), height=1, width=2)
         self.button_6.place(x=175, y=290, anchor=tk.S)
 
     # Functions relating to "Scoring" layout
@@ -466,34 +470,31 @@ Enter a score below.
             self.coords[2] = selfcoords[2] - (self.coords[3] - self.resized_img_tk.height())
             self.coords[3] = self.resized_img_tk.height()
 
-    def enter_score(self, score: int):
+    def _enter_score(self, score: int):
         '''
-        MainWindow.enter_score()
+        MainWindow._enter_score()
 
-        When a score button is pressed by the user, record the score.
+        When a score button or key is pressed by the user, record the score.
         If no coordinates have been selected, reject and reload window.
 
         Then, update the metadata and then the window state accordingly.
 
         '''
-
-        self.metadata.score = score
-        #print(f"Score entered: {self.metadata.score}")
-
-        self.dataframe = pd.concat([self.dataframe, self.metadata._make_pandas()], ignore_index=True)
-
-        if not self.metadata.x1 == None:
-            self.metadata = self.metadata._update(8)
-            if self.metadata.end_of_data == True:
-                print("End of data")
-                self._save_and_quit()
-            elif self.metadata.row == 1 and self.metadata.col == 1 and self.metadata.pos == 1:
-                self._scoring_to_grid()
+        if not (self.metadata.maxrow == None or self.metadata.maxcol == None):
+            if not self.metadata.x1 == None:
+                self.metadata.score = score
+                #print(f"Score entered: {self.metadata.score}")
+                self.dataframe = pd.concat([self.dataframe, self.metadata._make_pandas()], ignore_index=True)
+                self.metadata = self.metadata._update(8)
+                if self.metadata.end_of_data == True:
+                    print("End of data")
+                    self._save_and_quit()
+                elif self.metadata.row == 1 and self.metadata.col == 1 and self.metadata.pos == 1:
+                    self._scoring_to_grid()
+                else:
+                    self._grid_to_scoring()
             else:
-                self._grid_to_scoring()
-        else:
-            print("Please select the ROI before selecting the score")
-            self._grid_to_scoring()
+                print("Please select the ROI before selecting the score")
 
     def _skip_spots(self, num_skip: int):
         '''
