@@ -171,9 +171,9 @@ class MainWindow:
             self.button_6.destroy()
             self.canvas.destroy()
             self.button_exit.destroy()
-        if hasattr(self, "grid_input_info"):
+        if hasattr(self, "row_info"):
             self.img_label.destroy()
-            self.grid_input_info.destroy()
+            #self.grid_input_info.destroy()
             self.row_info.destroy()
             self.row_input.destroy()
             self.col_info.destroy()
@@ -214,27 +214,27 @@ this image.
         self.img_label.place(x=0, y=0, anchor=tk.NW, relwidth=1.0, relheight=1.0)
 
         # Right panel containing input boxes
-        self.grid_input_info = tk.Label(self.input_frame, text="""
-Enter the row and column
-counts below.
-        """, justify=tk.CENTER, font=("Arial", 20))
-        self.grid_input_info.place(x=135, y=0, anchor=tk.N)
+#        self.grid_input_info = tk.Label(self.input_frame, text="""
+#Enter the row and column
+#counts below.
+#        """, justify=tk.CENTER, font=("Arial", 20))
+#        self.grid_input_info.place(x=135, y=0, anchor=tk.N)
 
         self.row_info = tk.Label(self.input_frame, text="""
 Number of rows:
         """, justify=tk.CENTER, font=("Arial", 20), height=1)
-        self.row_info.place(x=135, y=120, anchor=tk.S)
+        self.row_info.place(x=135, y=60, anchor=tk.S)
 
         self.row_input = tk.Entry(self.input_frame)
-        self.row_input.place(x=135, y=160, anchor=tk.S)
+        self.row_input.place(x=135, y=110, anchor=tk.S)
 
         self.col_info = tk.Label(self.input_frame, text="""
 Number of columns:
         """, justify=tk.CENTER, font=("Arial", 20), height=1)
-        self.col_info.place(x=135, y=200, anchor=tk.S)
+        self.col_info.place(x=135, y=180, anchor=tk.S)
 
         self.col_input = tk.Entry(self.input_frame)
-        self.col_input.place(x=135, y=240, anchor=tk.S)
+        self.col_input.place(x=135, y=230, anchor=tk.S)
 
         self.input_submit = tk.Button(self.input_frame, text="Submit", command=self._get_entry_values, font=("Arial", 20), height=1, width=4)
         self.input_submit.place(x=80, y=300, anchor=tk.S)
@@ -282,9 +282,9 @@ Number of columns:
         '''
 
         # Remove previous placed objects
-        if hasattr(self, "grid_input_info"):
+        if hasattr(self, "row_info"):
             self.img_label.destroy()
-            self.grid_input_info.destroy()
+            #self.grid_input_info.destroy()
             self.row_info.destroy()
             self.row_input.destroy()
             self.col_info.destroy()
@@ -458,17 +458,17 @@ Enter a score below.
             self.coords[1] = self.coords[1] - self.coords[0]
             self.coords[0] = 0
 
-        if self.coords[1] > self.resized_img_tk.width():
-            self.coords[0] = self.coords[0] - (self.coords[1] - self.resized_img_tk.width())
-            self.coords[1] = self.resized_img_tk.width()
+        if self.coords[1] > self.img_tk.width():
+            self.coords[0] = self.coords[0] - (self.coords[1] - self.img_tk.width())
+            self.coords[1] = self.img_tk.width()
 
         if self.coords[2] < 0:
             self.coords[3] = self.coords[3] - self.coords[2]
             self.coords[2] = 0
 
-        if self.coords[3] > self.resized_img_tk.height():
-            self.coords[2] = self.coords[2] - (self.coords[3] - self.resized_img_tk.height())
-            self.coords[3] = self.resized_img_tk.height()
+        if self.coords[3] > self.img_tk.height():
+            self.coords[2] = self.coords[2] - (self.coords[3] - self.img_tk.height())
+            self.coords[3] = self.img_tk.height()
 
     def _enter_score(self, score: int):
         '''
@@ -493,7 +493,8 @@ Enter a score below.
                 else:
                     self._grid_to_scoring()
             else:
-                print("Please select the ROI before selecting the score")
+                if hasattr(self, "scoring_info_label"):
+                    print("Please select the ROI before selecting the score")
 
     def _skip_spots(self, num_skip: int):
         '''
