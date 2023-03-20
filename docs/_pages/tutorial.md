@@ -77,7 +77,7 @@ The program will then append the scoring key to the bottom of that image, and th
 
 Using the metadata, identify the corresponding CDA. Left click and drag to draw a bounding box around that CDA. The box can simply be re-drawn if it is incorrect.
 
-Then, in the right panel, click the score for that CDA.
+Then, enter the score for that CDA by either pressing the corresponding key or clicking the corresponding button.
 
 The metadata at the left panel will update, and the process of recording coordinates and scores can be repeated for the next CDA.
 
@@ -91,14 +91,14 @@ Non-existent CDAs and leaves can be skipped by pressing the "Next" or "Skip Leaf
 
 #### What if I made a mistake and want to go back?
 
-If you wish to redo a previous score, press the "Prev" button in the left pane of the scoring window, which will return to the last data entry.
+If you wish to redo a previous score, press the "Prev" button in the left pane of the scoring window, which will return to the last data entry, removing it.
 
 When you input new coordinate and score values, they will overwrite the previously existing data for that CDA.
 
 
 #### Exiting the program.
 
-If you close the window using the cross in the top left, your current progress will be saved to the output file location and the program will exit.
+If you close the window using the exit button in the top left (or by closing using the conventional red cross), your current progress will be saved to the output file location and the program will exit.
 
 If you run the program again on the same output file, it will pick up where you left off.
 
