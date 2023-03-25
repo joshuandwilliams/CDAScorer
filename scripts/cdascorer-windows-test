@@ -1,0 +1,14 @@
+#!C:\Users\joshu\AppData\Local\Programs\Python\Python311\python.exe
+
+'''
+cdascorer-test
+
+Runs cdascorer-run with the test flag -t
+
+Output found in the file "test_cdata.csv"
+
+'''
+
+import subprocess
+
+subprocess.run(["cdascorer-windows.py", "-f", "test_cdata.csv", "-t", "True"], shell=True)

@@ -112,16 +112,16 @@ class MainWindow:
 
         # Initialise left panel to have info placed over it
         self.info_frame = tk.Frame(self.root, bd=2, relief=tk.RAISED)
-        self.info_width = 30
-        self.info_height = 20
+        self.info_width = 45
+        self.info_height = 30
         self.info_init = tk.Label(self.info_frame, text="", width=self.info_width, height=self.info_height)
         self.info_init.pack()
         self.info_frame.pack(side=tk.TOP, anchor=tk.NW, expand=True)
 
         # Initialise right panel to have info placed over it
         self.input_frame = tk.Frame(self.root, bd=2, relief=tk.RAISED)
-        self.input_width = 30
-        self.input_height = 20
+        self.input_width = 45
+        self.input_height = 30
         self.input_init = tk.Label(self.input_frame, text="", width=self.input_width, height=self.input_height)
         self.input_init.pack()
         self.input_frame.pack(side=tk.TOP, anchor=tk.NW, expand=True)
@@ -206,7 +206,7 @@ this image.
 
         self.scoring_info.place(x=0, y=0, anchor=tk.NW, relwidth=1.0, relheight=1.0)
 
-        self.button_exit=tk.Button(self.info_frame, text="Exit", command=self._save_and_quit, font=("Arial", 20), height=1, width=4)
+        self.button_exit=tk.Button(self.info_frame, text="Exit", command=self._save_and_quit, font=("Arial", 20), height=1, width=5)
         self.button_exit.place(x=0, y=0, anchor=tk.NW)
 
         # Central panel containing static image
@@ -236,7 +236,7 @@ Number of columns:
         self.col_input = tk.Entry(self.input_frame)
         self.col_input.place(x=135, y=230, anchor=tk.S)
 
-        self.input_submit = tk.Button(self.input_frame, text="Submit", command=self._get_entry_values, font=("Arial", 20), height=1, width=4)
+        self.input_submit = tk.Button(self.input_frame, text="Submit", command=self._get_entry_values, font=("Arial", 20), height=1, width=6)
         self.input_submit.place(x=80, y=300, anchor=tk.S)
 
     # Functions relating to "Grid" layout
@@ -333,13 +333,13 @@ following CDA:
         self.coords_info_label.place(x=0, y=0, anchor=tk.NW, relwidth=1.0, relheight=1.0)
 
         self.button_prev=tk.Button(self.info_frame, text="Prev", command=self._prev_CDA, font=("Arial", 20), height=1, width=4)
-        self.button_prev.place(x=42, y=320, anchor=tk.S)
+        self.button_prev.place(x=42, y=450, anchor=tk.S)
 
         self.button_next=tk.Button(self.info_frame, text="Next", command=lambda: self._skip_spots(num_skip=1), font=("Arial", 20), height=1, width=4)
-        self.button_next.place(x=125, y=320, anchor=tk.S)
+        self.button_next.place(x=125, y=450, anchor=tk.S)
 
-        self.button_leaf=tk.Button(self.info_frame, text="Skip Leaf", command=lambda: self._skip_spots(num_skip=self.num_spots), font=("Arial", 20), height=1, width=6)
-        self.button_leaf.place(x=220, y=320, anchor=tk.S)
+        self.button_leaf=tk.Button(self.info_frame, text="Skip Leaf", command=lambda: self._skip_spots(num_skip=self.num_spots), font=("Arial", 20), height=1, width=8)
+        self.button_leaf.place(x=240, y=450, anchor=tk.S)
 
         self.button_exit=tk.Button(self.info_frame, text="Exit", command=self._save_and_quit, font=("Arial", 20), height=1, width=4)
         self.button_exit.place(x=0, y=0, anchor=tk.NW)
@@ -366,26 +366,26 @@ Enter a score below.
         """, width=self.input_width, justify=tk.CENTER, font=("Arial", 20))
         self.scoring_info_label.place(x=135, y=0, anchor=tk.N)
 
-        self.button_0=tk.Button(self.input_frame, text="0", font=("Arial", 30), command=lambda:self._enter_score(0), height=1, width=2)
-        self.button_0.place(x=135, y=140, anchor=tk.S)
+        self.button_0=tk.Button(self.input_frame, text="0", font=("Arial", 20), command=lambda:self._enter_score(0), height=1, width=2)
+        self.button_0.place(x=135, y=160, anchor=tk.S)
 
-        self.button_1=tk.Button(self.input_frame, text="1", font=("Arial", 30), command=lambda:self._enter_score(1), height=1, width=2)
-        self.button_1.place(x=95, y=190, anchor=tk.S)
+        self.button_1=tk.Button(self.input_frame, text="1", font=("Arial", 20), command=lambda:self._enter_score(1), height=1, width=2)
+        self.button_1.place(x=95, y=220, anchor=tk.S)
 
-        self.button_2=tk.Button(self.input_frame, text="2", font=("Arial", 30), command=lambda:self._enter_score(2), height=1, width=2)
-        self.button_2.place(x=175, y=190, anchor=tk.S)
+        self.button_2=tk.Button(self.input_frame, text="2", font=("Arial", 20), command=lambda:self._enter_score(2), height=1, width=2)
+        self.button_2.place(x=175, y=220, anchor=tk.S)
 
-        self.button_3=tk.Button(self.input_frame, text="3", font=("Arial", 30), command=lambda:self._enter_score(3), height=1, width=2)
-        self.button_3.place(x=95, y=240, anchor=tk.S)
+        self.button_3=tk.Button(self.input_frame, text="3", font=("Arial", 20), command=lambda:self._enter_score(3), height=1, width=2)
+        self.button_3.place(x=95, y=280, anchor=tk.S)
 
-        self.button_4=tk.Button(self.input_frame, text="4", font=("Arial", 30), command=lambda:self._enter_score(4), height=1, width=2)
-        self.button_4.place(x=175, y=240, anchor=tk.S)
+        self.button_4=tk.Button(self.input_frame, text="4", font=("Arial", 20), command=lambda:self._enter_score(4), height=1, width=2)
+        self.button_4.place(x=175, y=280, anchor=tk.S)
 
-        self.button_5=tk.Button(self.input_frame, text="5", font=("Arial", 30), command=lambda:self._enter_score(5), height=1, width=2)
-        self.button_5.place(x=95, y=290, anchor=tk.S)
+        self.button_5=tk.Button(self.input_frame, text="5", font=("Arial", 20), command=lambda:self._enter_score(5), height=1, width=2)
+        self.button_5.place(x=95, y=340, anchor=tk.S)
 
-        self.button_6=tk.Button(self.input_frame, text="6", font=("Arial", 30), command=lambda:self._enter_score(6), height=1, width=2)
-        self.button_6.place(x=175, y=290, anchor=tk.S)
+        self.button_6=tk.Button(self.input_frame, text="6", font=("Arial", 20), command=lambda:self._enter_score(6), height=1, width=2)
+        self.button_6.place(x=175, y=340, anchor=tk.S)
 
     # Functions relating to "Scoring" layout
     def _on_button_press(self, event):

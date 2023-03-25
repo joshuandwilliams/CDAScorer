@@ -1,2 +1,3 @@
 from .cdametadata import *
-from .tkinterwindow import *
+from .cdascorer_gui import *
+from .cdascorer_gui_windows import *
