@@ -8,3 +8,4 @@ push_to_pypi*
 .DS_Store
 /testimg/
 *.csv
+UpdatePackage.sh
