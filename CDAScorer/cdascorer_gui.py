@@ -67,9 +67,6 @@ class MainWindow:
 
         '''
 
-        self.platform = platform.system()
-        print(self.platform)
-
         self.root = root
         self.dataframe = cdata
         self.metadata = metadata

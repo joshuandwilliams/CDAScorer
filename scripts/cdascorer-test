@@ -11,4 +11,4 @@ Output found in the file "test_cdata.csv"
 
 import subprocess
 
-subprocess.run(["cdascorer-run", "-f", "test_cdata.csv", "-t", "True"])
+subprocess.run(["cdascorer", "-f", "test_cdata.csv", "-t", "True"])
