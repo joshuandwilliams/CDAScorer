@@ -20,27 +20,31 @@ You should have a cmd window open, and have navigated to the folder you want you
 
 Your command will consist of 4 elements:
 
-1. Running the CDAScorer program.
+- Running the CDAScorer program.
 
 This will be ```cdascorer```.
 
-2. Telling CDAScorer which images you're going to score.
+- Telling CDAScorer which images you're going to score.
 
 This will be ```--source_folder /Volumes/shared/Research-Groups/Mark-Banfield/Josh_Williams/FOLDER```.
+
 FOLDER comes from the Folder column of the CDA_Image_Info Excel file - you can copy and paste it into the Terminal window.
 
-3. Telling CDAScorer the name of your output file.
+- Telling CDAScorer the name of your output file.
 
 This will be ```--file cdadata_YOURNAME_FOLDERID.csv``` e.g. cdadata_Josh_2.csv.
+
 YOURNAME is your name.
+
 FOLDERID comes from the FolderID column of the CDA_Image_Info Excel file.
 
-4. Telling CDAScorer how many CDAs are on each leaf.
+- Telling CDAScorer how many CDAs are on each leaf.
 
 This will be ```-n LEAFPERIMG```
+
 LEAFPERIMG comes from the LeafPerImg column of the CDA_Image_Info Excel file.
 
-Bringing this all together you will have a command that looks something like this:
+##### Bringing this all together you will have a command that looks something like this:
 
 ```cdascorer --source_folder /Volumes/shared/Research-Groups/Mark-Banfield/Josh_Williams/FOLDER --file cdatdata_YOURNAME_FOLDERID.csv -n LEAFPERIMG```
 
@@ -54,27 +58,31 @@ You should have a Terminal window open, and have nagivated to the folder you wan
 
 Your command will consist of 4 elements:
 
-1. Running the CDAScorer program.
+- Running the CDAScorer program.
 
 This will be ```cdascorer-windows.py```.
 
-2. Telling CDAScorer which images you're going to score.
+- Telling CDAScorer which images you're going to score.
 
 This will be ```--source_folder Z:\Research-Groups\Mark-Banfield\Josh_Williams\FOLDER```.
+
 FOLDER comes from the Folder column of the CDA_Image_Info Excel file - you can copy and paste it into the Terminal window.
 
-3. Telling CDAScorer the name of your output file.
+- Telling CDAScorer the name of your output file.
 
 This will be ```--file cdadata_YOURNAME_FOLDERID.csv``` e.g. cdadata_Josh_2.csv.
+
 YOURNAME is your name.
+
 FOLDERID comes from the FolderID column of the CDA_Image_Info Excel file.
 
-4. Telling CDAScorer how many CDAs are on each leaf.
+- Telling CDAScorer how many CDAs are on each leaf.
 
 This will be ```-n LEAFPERIMG```
+
 LEAFPERIMG comes from the LeafPerImg column of the CDA_Image_Info Excel file.
 
-Bringing this all together you will have a command that looks something like this:
+##### Bringing this all together you will have a command that looks something like this:
 
 ```cdascorer-windows.py --source_folder Z:\Research-Groups\Mark-Banfield\Josh_Williams\FOLDER --file cdadata_YOURNAME_FOLDERID.csv -n LEAFPERIMG```
 
