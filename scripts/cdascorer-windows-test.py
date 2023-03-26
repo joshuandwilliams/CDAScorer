@@ -1,5 +1,4 @@
-#!C:\Users\joshu\AppData\Local\Programs\Python\Python311\python.exe
-
+#!/usr/bin/env python
 '''
 cdascorer-test
 
