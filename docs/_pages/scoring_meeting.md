@@ -5,7 +5,7 @@ classes: wide
 toc: True
 ---
 
-### Locating your scoring datasets
+## Locating your scoring datasets
 
 Now you've got the CDAScorer up and running, you can start using it to score some actual data!
 
