@@ -101,7 +101,7 @@ Now we want to add these paths to your PATH variable. To do this, complete the f
 
 ![Edit_Path_Windows](./images/Edit_Path_Windows.png)
 
-9. You will have returned to the Environment Variables window. Whilst we are here, we have another important step to do, which is updating the PATH_EXT System Variable. This variable tells Windows which file types are executable, and it doesn't automatically include Python files (.py).
+9. You will have returned to the Environment Variables window. Whilst we are here, we have another important step to do, which is updating the PATHEXT System Variable. This variable tells Windows which file types are executable, and it doesn't automatically include Python files (.py).
 
 10. In the System Variables panel, click on "Pathext", and press "Edit...".
 
