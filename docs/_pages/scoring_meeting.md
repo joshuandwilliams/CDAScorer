@@ -8,6 +8,8 @@ classes: wide
 
 Now you've got the CDAScorer up and running, you can start using it to score some actual data!
 
+Please use the instructions below and work through as many of your assigned folders as you can during this time. At the end of the time, please copy any completed datasets to the Scored_Data_Complete folder in my area of Mark's shared area.
+
 I've divided the existing data up amongst those who are available, and the details can be found in my folder in Mark's shared folder.
 - Windows: Z:\Research-Groups\Mark-Banfield\Josh_Williams\CDA_Image_Info.xlsx
 - Mac: /Volumes/shared/Research-Groups/Mark-Banfield/Josh_Williams/CDA_Image_Info.xlsx
@@ -89,4 +91,3 @@ LEAFPERIMG comes from the LeafPerImg column of the CDA_Image_Info Excel file.
 And as an example for FolderID 1:
 
 ```cdascorer-windows.py --source_folder Z:\Research-Groups\Mark-Banfield\Josh_Williams\Fig2_leaf_images\A\HMAswap\MP\1\ --file cdadata_Raf_1.csv -n 6```
-
