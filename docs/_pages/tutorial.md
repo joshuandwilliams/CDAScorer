@@ -27,7 +27,7 @@ $ conda activate <my-env>
 Run the package with your own data, where any TIFF images to be used are in a single folder (source folder).
 
 ```sh
-(my-env) $ cdascorer-run -s <SOURCE-FOLDER> -f <DATA-FILE> -n <CDA_Per_Leaf>
+(my-env) $ cdascorer -s <SOURCE-FOLDER> -f <DATA-FILE> -n <CDA_PER_LEAF>
 ```
 
 Or, run the package on an example image included in the package files.
@@ -39,7 +39,14 @@ Or, run the package on an example image included in the package files.
 Load the help information:
 
 ```sh
-(my-env) $ cdascorer-run -h
+(my-env) $ cdascorer -h
+```
+
+On windows these commands change slightly, and assume that .PY is in your pathext system variable.
+```sh
+(my-env) $ cdascorer-windows.py -s <SOURCE-FOLDER> -f <DATA-FILE> -n <CDA_PER_LEAF>
+(my-env) $ cdascorer-windows-test.py
+(my-env) $ cdascorer-windows.py -h
 ```
 
 ### Detailed information:
