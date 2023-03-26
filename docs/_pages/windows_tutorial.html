@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Getting CDAScorer Running: Windows</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="windows_tutorial_files/libs/clipboard/clipboard.min.js"></script>
+<script src="windows_tutorial_files/libs/quarto-html/quarto.js"></script>
+<script src="windows_tutorial_files/libs/quarto-html/popper.min.js"></script>
+<script src="windows_tutorial_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="windows_tutorial_files/libs/quarto-html/anchor.min.js"></script>
+<link href="windows_tutorial_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="windows_tutorial_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="windows_tutorial_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="windows_tutorial_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="windows_tutorial_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#step-1-make-sure-you-are-connected-to-eduroam" id="toc-step-1-make-sure-you-are-connected-to-eduroam" class="nav-link active" data-scroll-target="#step-1-make-sure-you-are-connected-to-eduroam">Step 1: Make sure you are connected to Eduroam</a></li>
+  <li><a href="#step-2-map-the-banfield-shared-drive-in-your-file-explorer" id="toc-step-2-map-the-banfield-shared-drive-in-your-file-explorer" class="nav-link" data-scroll-target="#step-2-map-the-banfield-shared-drive-in-your-file-explorer">Step 2: Map the Banfield shared drive in your File Explorer</a></li>
+  <li><a href="#step-3-make-sure-python-is-installed." id="toc-step-3-make-sure-python-is-installed." class="nav-link" data-scroll-target="#step-3-make-sure-python-is-installed.">Step 3: Make sure Python is installed.</a></li>
+  <li><a href="#step-4-make-sure-anaconda-is-installed." id="toc-step-4-make-sure-anaconda-is-installed." class="nav-link" data-scroll-target="#step-4-make-sure-anaconda-is-installed.">Step 4: Make sure Anaconda is installed.</a></li>
+  <li><a href="#step-5-optional---see-steps-above-updating-the-path-variable." id="toc-step-5-optional---see-steps-above-updating-the-path-variable." class="nav-link" data-scroll-target="#step-5-optional---see-steps-above-updating-the-path-variable.">Step 5 (Optional - see steps above): Updating the PATH variable.</a></li>
+  <li><a href="#step-6-navigate-to-where-you-want-to-store-your-scoring-data-outputs." id="toc-step-6-navigate-to-where-you-want-to-store-your-scoring-data-outputs." class="nav-link" data-scroll-target="#step-6-navigate-to-where-you-want-to-store-your-scoring-data-outputs.">Step 6: Navigate to where you want to store your scoring data outputs.</a></li>
+  <li><a href="#step-7-creating-a-conda-environment" id="toc-step-7-creating-a-conda-environment" class="nav-link" data-scroll-target="#step-7-creating-a-conda-environment">Step 7: Creating a conda environment</a></li>
+  <li><a href="#step-8-downloading-the-cdascorer-package" id="toc-step-8-downloading-the-cdascorer-package" class="nav-link" data-scroll-target="#step-8-downloading-the-cdascorer-package">Step 8: Downloading the CDAScorer package</a></li>
+  <li><a href="#step-9-running-the-cdascorer-package-with-test-data" id="toc-step-9-running-the-cdascorer-package-with-test-data" class="nav-link" data-scroll-target="#step-9-running-the-cdascorer-package-with-test-data">Step 9: Running the CDAScorer package with test data</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Getting CDAScorer Running: Windows</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="step-1-make-sure-you-are-connected-to-eduroam" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-make-sure-you-are-connected-to-eduroam">Step 1: Make sure you are connected to Eduroam</h2>
+</section>
+<section id="step-2-map-the-banfield-shared-drive-in-your-file-explorer" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-map-the-banfield-shared-drive-in-your-file-explorer">Step 2: Map the Banfield shared drive in your File Explorer</h2>
+<p>Open File Explorer.</p>
+<p>In the lower half of the left pane, click on “This PC”.</p>
+<p>Then, in the top bar, click on “Map Network Drive”. This is sometimes hidden in a drop down menu.</p>
+<p>A window will pop up. In the “Folder:” box, type “\\nbi-ufiles\shared” and press “Finish”.</p>
+<p><em>This is the window you should see during this step</em> <img src="./images/Map_Network_Windows.png" class="img-fluid" alt="Map_Network_Windows"></p>
+</section>
+<section id="step-3-make-sure-python-is-installed." class="level2">
+<h2 class="anchored" data-anchor-id="step-3-make-sure-python-is-installed.">Step 3: Make sure Python is installed.</h2>
+<p>Check if Python is installed on your computer by typing “Python” in your Windows search bar. If you see an application e.g.&nbsp;Python 3.11 (64-bit), it is installed.</p>
+<p><em>This is what you should see if Python is installed</em> <img src="./images/Identify_Python_Windows.png" class="img-fluid" alt="Identify_Python_Windows"></p>
+<p>Your Python will need to be up to date for my tool to run. Make sure this number is 3.9 or higher.</p>
+<p>If Python is not installed or is an old version, you will need to download a new version of Python. Head to <a href="https://python.org/downloads/">the Python download page</a> and click on the yellow button “Download Python 3.11.2”. Then click on your download and work through the installer.</p>
+<p>Now we need to check if your computer can see this newly installed Python. Windows uses a variable called PATH which tells it where to look when running programs, and it doesn’t always automatically update when a new program is installed.</p>
+<p>Open the command line by typing “cmd” into the windows search bar and clicking on the application that comes up.</p>
+<p>In the cmd window, type <code>py -V</code> and press enter. - If Python 3.11.2 (replace with your version number) appears, your computer can see Python. - If it gives an error about it not being a recognized command, we will need to update the PATH variable after checking the same for Anaconda.</p>
+</section>
+<section id="step-4-make-sure-anaconda-is-installed." class="level2">
+<h2 class="anchored" data-anchor-id="step-4-make-sure-anaconda-is-installed.">Step 4: Make sure Anaconda is installed.</h2>
+<p>Check if Anaconda is installed on your computer by typing “Anaconda” in your Windows search bar. Like with Python, if you see an application with a green logo called Anaconda Navigator, it is installed.</p>
+<p>If Anaconda is not installed, you will need to download it. Head to <a href="https://www.anaconda.com/products/distribution">the Anaconda download page</a> and click on the green button “Download”. Then click on your download and work through the installer (warning - this can take a while so you’ll need to be patient).</p>
+<p>Now we need to check if your computer can see Anaconda, like we did for Python.</p>
+<p>In the cmd window, type <code>conda env list</code> and press enter. - If you get a list of filepaths headed by “conda environments:”, your computer can see Anaconda. - If it gives an error about conda not being recognized as a command, we will update the PATH variable.</p>
+</section>
+<section id="step-5-optional---see-steps-above-updating-the-path-variable." class="level2">
+<h2 class="anchored" data-anchor-id="step-5-optional---see-steps-above-updating-the-path-variable.">Step 5 (Optional - see steps above): Updating the PATH variable.</h2>
+<p>Unlike Mac, Windows doesn’t automatically know where to find your Python and Anaconda installations, which is why it threw up some errors when we tried to run Python and Anaconda commands. Windows looks through all the folders in a variable called PATH when looking for executable commands. You can look at your path by typing “path” into the cmd window. You’ll see a list of paths separated by semi-colons.</p>
+<p>To show Windows where to look, we will add the installation paths to the PATH variable.</p>
+<p>First, you need to find out where Python and/or Anaconda are installed. You only need to do this for those that said “X is not recognized as a command”. You can find the installation path of a program as follows:</p>
+<ol type="1">
+<li><p>Type Python or Anaconda in the Windows search bar.</p></li>
+<li><p>In the right pane, click “Open file location”. This will bring up a file explorer window with the item highlighted.</p></li>
+<li><p>Right click the highlighted item, and again click “Open file location”. This will take you to the install location.</p></li>
+<li><p>The top bar contains the filepath which we will need to add to the PATH variable. For Python, it should look something like “C:\Users\YOUR_USERNAME\Appdata\Local\Programs\Python\Python311\”, and for Anaconda, “C:\Users\YOUR_USERNAME\anaconda3\”. Copy this text into a note document, you will need it shortly.</p></li>
+</ol>
+<p>You will now have a notes document with your installation path of Python and/or Anaconda. We will add two more paths to this document, by copying the existing paths and adding “Scripts\” to the end.</p>
+<p><em>Example of what your notes document might look like</em></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/Path_Examples_Windows.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Path_Examples_Windows</figcaption><p></p>
+</figure>
+</div>
+<p>Now we want to add these paths to your PATH variable. To do this, complete the following steps:</p>
+<ol type="1">
+<li><p>Open File Explorer.</p></li>
+<li><p>In the left pane, right click “This PC”” and select “Properties”.</p></li>
+<li><p>Select “Advanced system settings”.</p></li>
+<li><p>Select “Environment Variables”.</p></li>
+<li><p>This will bring up the Environment Variables window which contains two panels. At the top is the User Variables panel, and at the bottom is the System Variables panel.</p></li>
+</ol>
+<p><em>Image of the Environment Variables panel</em></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/Environment_Variables_Windows.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Environment_Variables_Windows</figcaption><p></p>
+</figure>
+</div>
+<ol start="6" type="1">
+<li><p>In the User Variables panel, click on “Path”, and press “Edit…”.</p></li>
+<li><p>Click “New”, and an empty textbox will appear asking you to input some text. Copy the first path from your notes document in here.</p></li>
+<li><p>Repeat this, pressing “New” again, and this time entering the second path from your note document. Then repeat this with any remaining paths and press “Ok”.</p></li>
+</ol>
+<p><em>Image showing updated path variable</em></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/Edit_Path_Windows.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Edit_Path_Windows</figcaption><p></p>
+</figure>
+</div>
+<ol start="9" type="1">
+<li><p>You will have returned to the Environment Variables window. Whilst we are here, we have another important step to do, which is updating the PATH_EXT System Variable. This variable tells Windows which file types are executable, and it doesn’t automatically include Python files (.py).</p></li>
+<li><p>In the System Variables panel, click on “Pathext”, and press “Edit…”.</p></li>
+<li><p>In the “Variable value:” box, add “;.PY”</p></li>
+</ol>
+<p><em>Image showing updated pathext variable</em> <img src="./images/Edit_Pathext_Windows.png" class="img-fluid" alt="Edit_Pathext_Windows"></p>
+<ol start="12" type="1">
+<li>In order to make sure these variables properly updated, you need to restart your computer.</li>
+</ol>
+<p>Once you’ve restarted your PC, reopen the cmd window. Typing “py -V” or “conda env list” should now work.</p>
+</section>
+<section id="step-6-navigate-to-where-you-want-to-store-your-scoring-data-outputs." class="level2">
+<h2 class="anchored" data-anchor-id="step-6-navigate-to-where-you-want-to-store-your-scoring-data-outputs.">Step 6: Navigate to where you want to store your scoring data outputs.</h2>
+<p>Use the cd (change directory) command in the cmd window to navigate to an empty folder location you’d like to store your files. For example, if you have a folder called CDAScorer_Data in your Documents folder, you could navigate there by typing “cd \\Users\\YOUR_USERNAME\\Documents\\CDAScorer_Data\\” where YOUR_USERNAME is your NBI username e.g.&nbsp;jowillia.</p>
+</section>
+<section id="step-7-creating-a-conda-environment" class="level2">
+<h2 class="anchored" data-anchor-id="step-7-creating-a-conda-environment">Step 7: Creating a conda environment</h2>
+<p>We installed Anaconda so we can run packages inside what is effectively a sealed box on your computer. So that if the packages make any changes to local or global settings, they are contained and don’t make permanent changes to your computer. This box is called a conda environment.</p>
+<p>Type “conda init”, then when it finishes running, restart the cmd window.</p>
+<p>To create a conda environment for scoring, type <code>conda create --name CDAScorer</code>. This creates an environment called CDAScorer.</p>
+<p>Then activate this environment (stepping inside the sealed box), and this can be done by typing <code>conda activate CDAScorer</code>. You should now see that at the start of your line it says (CDAScorer). Every time you open the cmd window, if your environment is (base) you should activate a conda environment.</p>
+</section>
+<section id="step-8-downloading-the-cdascorer-package" class="level2">
+<h2 class="anchored" data-anchor-id="step-8-downloading-the-cdascorer-package">Step 8: Downloading the CDAScorer package</h2>
+<p>To download my CDAScorer package, we use pip, which comes with Python. Do this using the code <code>pip install cdascorer</code>.</p>
+<p>This will install my package as well as any other Python packages it depends on to run.</p>
+</section>
+<section id="step-9-running-the-cdascorer-package-with-test-data" class="level2">
+<h2 class="anchored" data-anchor-id="step-9-running-the-cdascorer-package-with-test-data">Step 9: Running the CDAScorer package with test data</h2>
+<p>Now you are all set to run the program. Run a the test program to verify that it works with the following command <code>cdascorer-windows-test.py</code></p>
+<p>When you enter that command, a user interface should appear. You can press the exit button in the top left to quit.</p>
+<p>If you enter “ls” into the cmd window (if this gives an error try “dir”), you should see two new files, one called “test_cdata.csv” and one called “backup_X_test_data.csv”, where X is replaced with the day, month, year, hour, minute.</p>
+<p>This is great! It means the package is running successfully on your laptop.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
