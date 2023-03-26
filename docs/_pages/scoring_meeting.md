@@ -8,13 +8,25 @@ classes: wide
 
 Now you've got the CDAScorer up and running, you can start using it to score some actual data!
 
-Please use the instructions below and work through as many of your assigned folders as you can during this time. At the end of the time, please copy any completed datasets to the Scored_Data_Complete folder in my area of Mark's shared area.
+In File Explorer or Finder please navigate to my folder in Mark's area on the shared drive.
 
-I've divided the existing data up amongst those who are available, and the details can be found in my folder in Mark's shared folder.
-- Windows: Z:\Research-Groups\Mark-Banfield\Josh_Williams\CDA_Image_Info.xlsx
-- Mac: /Volumes/shared/Research-Groups/Mark-Banfield/Josh_Williams/CDA_Image_Info.xlsx
+I've divided the existing data up amongst those who are available, and the details can be in CDA_Image_Info.xlsx.
 
-Navigate to the second sheet called "Scoring_Assignments" and identify your rows in the Assigned_Scorer column.
+Navigate to the second sheet called "Scoring_Assignments" and make sure you can see your rows in the Assigned_Scorer column.
+
+Please use CDAScorer package as explained below and work through as many of your assigned folders as you can during this time.
+
+At the end of the time, please copy any completed datasets to the Scored_Data_Complete folder.
+
+## Quickstart (If you've done this before - otherwise skip):
+
+Mac:
+
+```cdascorer --source_folder <SOURCE FOLDER> --file <OUTPUT FILE> -n <CDAs PER LEAF>```
+
+Windows:
+
+```cdascorer-windows.py --source_folder <SOURCE FOLDER> --file <OUTPUT FILE> -n <CDAs PER LEAF>```
 
 ## Constructing your command (Mac):
 
