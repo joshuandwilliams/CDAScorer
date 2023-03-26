@@ -42,7 +42,9 @@ Load the help information:
 (my-env) $ cdascorer -h
 ```
 
-On windows these commands change slightly, and assume that .PY is in your pathext system variable.
+
+
+On Windows these commands change slightly, and assume that .PY is in your pathext system variable.
 ```sh
 (my-env) $ cdascorer-windows.py -s <SOURCE-FOLDER> -f <DATA-FILE> -n <CDA_PER_LEAF>
 (my-env) $ cdascorer-windows-test.py
