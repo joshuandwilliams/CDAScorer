@@ -57,4 +57,4 @@ When you enter that command, a user interface should appear. You can press the e
 
 If you enter "ls" into the Terminal window, you should see two new files, one called "test_cdata.csv" and one called "backup_X_test_data.csv", where X is replaced with the day, month, year, hour, minute.
 
-This is great! It means the package is running successfully on your laptop.
+This is great! It means the package is running successfully on your laptop. [Follow this link to start scoring real data!](https://joshuandwilliams.github.io/CDAScorer/scoring_meeting/)
