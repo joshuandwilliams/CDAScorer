@@ -2,6 +2,7 @@
 permalink: /scoring_meeting/
 title: "Instructions for Banfield Scoring Meeting 27/03/2023"
 classes: wide
+toc: True
 ---
 
 ### Locating your scoring datasets
