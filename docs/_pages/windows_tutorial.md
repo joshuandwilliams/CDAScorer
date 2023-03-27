@@ -77,40 +77,40 @@ You will now have a notes document with your installation path of Python and/or 
 
 Now we want to add these paths to your PATH variable. To do this, complete the following steps:
 
-1. Open File Explorer.
+Step 1: Open File Explorer.
 
-2. In the left pane, right click "This PC"" and select "Properties".
+Step 2 In the left pane, right click "This PC"" and select "Properties".
 
-3. Select "Advanced system settings".
+Step 3: Select "Advanced system settings".
 
-4. Select "Environment Variables".
+Step 4: Select "Environment Variables".
 
-5. This will bring up the Environment Variables window which contains two panels. At the top is the User Variables panel, and at the bottom is the System Variables panel.
+Step 5: This will bring up the Environment Variables window which contains two panels. At the top is the User Variables panel, and at the bottom is the System Variables panel.
 
 *Image of the Environment Variables panel*
 
 ![Environment_Variables_Windows](./images/Environment_Variables_Windows.png)
 
-6. In the User Variables panel, click on "Path", and press "Edit...".
+Step 6: In the User Variables panel, click on "Path", and press "Edit...".
 
-7. Click "New", and an empty textbox will appear asking you to input some text. Copy the first path from your notes document in here.
+Step 7: Click "New", and an empty textbox will appear asking you to input some text. Copy the first path from your notes document in here.
 
-8. Repeat this, pressing "New" again, and this time entering the second path from your note document. Then repeat this with any remaining paths and press "Ok".
+Step 8: Repeat this, pressing "New" again, and this time entering the second path from your note document. Then repeat this with any remaining paths and press "Ok".
 
 *Image showing updated path variable*
 
 ![Edit_Path_Windows](./images/Edit_Path_Windows.png)
 
-9. You will have returned to the Environment Variables window. Whilst we are here, we have another important step to do, which is updating the PATH_EXT System Variable. This variable tells Windows which file types are executable, and it doesn't automatically include Python files (.py).
+Step 9: You will have returned to the Environment Variables window. Whilst we are here, we have another important step to do, which is updating the PATHEXT System Variable. This variable tells Windows which file types are executable, and it doesn't automatically include Python files (.py).
 
-10. In the System Variables panel, click on "Pathext", and press "Edit...".
+Step 10: In the System Variables panel, click on "Pathext", and press "Edit...".
 
-11. In the "Variable value:" box, add ";.PY"
+Step 11: In the "Variable value:" box, add ";.PY"
 
 *Image showing updated pathext variable*
 ![Edit_Pathext_Windows](./images/Edit_Pathext_Windows.png)
 
-12. In order to make sure these variables properly updated, you need to restart your computer.
+Step 12: In order to make sure these variables properly updated, you need to restart your computer.
 
 Once you've restarted your PC, reopen the cmd window. Typing "py -V" or "conda env list" should now work.
 
@@ -142,4 +142,4 @@ When you enter that command, a user interface should appear. You can press the e
 
 If you enter "ls" into the cmd window (if this gives an error try "dir"), you should see two new files, one called "test_cdata.csv" and one called "backup_X_test_data.csv", where X is replaced with the day, month, year, hour, minute.
 
-This is great! It means the package is running successfully on your laptop.
+This is great! It means the package is running successfully on your laptop. [Follow this link to start scoring real data!](https://joshuandwilliams.github.io/CDAScorer/scoring_meeting/)

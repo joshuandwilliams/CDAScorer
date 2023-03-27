@@ -6,4 +6,5 @@ main:
     url: /windows_install/
   - title: "Mac Install"
     url: /mac_install/
-      
+  - title: "Scoring Meeting"
+    url: /scoring_meeting/
