@@ -95,7 +95,7 @@ def _record_cdata(source_folder, df, num_spots):
     else:
         image_files = [str(file.resolve()) for file in Path(source_folder).iterdir() if
                    file.is_file() and not file.name.startswith(".") and
-                   file.name.endswith(".tif")]
+                   (file.name.endswith(".tif") or file.name.endswith(".TIF"))]
 
     # Initialise CDAMetadata Object
     current_metadata = cdascorer.cdametadata.CDAMetadata(image_files, df)
