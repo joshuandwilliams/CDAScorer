@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 '''
 cdascorer-run
 
@@ -18,10 +19,6 @@ Usage examples:
         or
         cdascorer-run --file --test True
 
-    On a smaller screen where part of the image is being cut off:
-        cdascorer-run --source_folder ~/Desktop/image_folder/ --file ~/Desktop/data_file.csv --window_width 500
-
-
 '''
 
 import cdascorer
@@ -39,7 +36,6 @@ parser.add_argument("-s", "--source_folder", help="folder containing images to a
 parser.add_argument("-f", "--file", help="cdata csv file to update. created if does not exist.", type=str, default="cdata.csv")
 parser.add_argument("-n", "--num_spots", help="the number of spots per leaf. must be consistent across all leaves", type=int, default=8)
 parser.add_argument("-t", "--test", help="use an existing image to test the program. true or false", type=bool, default=False)
-parser.add_argument("-w", "--window_width", help="change the size of the window to fit your screen.", type=int, default=1000)
 args = parser.parse_args()
 
 if not os.path.exists(args.source_folder):
@@ -112,7 +108,13 @@ def _record_cdata(source_folder, df, num_spots):
     # Loop through image files, starting at current_metadata.image
     root = tk.Tk()
     root.title("CDAScorer")
-    main_window = cdascorer.cdascorer_gui.MainWindow(root, cdata, current_metadata, args.window_width, args.num_spots)
+    print(f"Scaling by resolution: Width {root.winfo_screenwidth()}, Height {root.winfo_screenheight()}")
+
+    # Generate Scale
+    window_scale = root.winfo_screenwidth()/3000
+    print(window_scale)
+
+    main_window = cdascorer.cdascorer_gui.MainWindow(root, cdata, current_metadata, args.num_spots, window_scale)
     root.protocol("WM_DELETE_WINDOW", main_window._save_and_quit)
     root.mainloop()
 

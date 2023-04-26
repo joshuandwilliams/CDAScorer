@@ -85,7 +85,11 @@ class MainWindow:
             self.img = Image.open(self.img_path)
 
         self.img_tk = ImageTk.PhotoImage(self.img)
-        self.resized_img = self.img.resize((round(self.img.width*self.scale), round(self.img.height*self.scale)))
+        print(f"Width: {self.img.width}, Height: {self.img.height}")
+        # Normalise image size
+        self.normscale = self.img.width/1350
+
+        self.resized_img = self.img.resize((round(self.img.width*self.scale/self.normscale), round(self.img.height*self.scale/self.normscale)))
         self.resized_img_tk = ImageTk.PhotoImage(self.resized_img)
 
         self.key_bytes = files('cdascorer-data').joinpath("lesion_score_key.jpg").read_bytes()
@@ -360,25 +364,25 @@ Enter a score below.
         """, width=self.left_width, justify=tk.CENTER, font=("Arial", _scale_val(30, self.scale)))
         self.scoring_info_label.place(relx=0.5, rely=0.55, anchor=tk.S, relwidth=1.0)
 
-        self.button_0=tk.Button(self.left_frame, text="0", font=("Arial", _scale_val(30, self.scale)), command=lambda:self._enter_score(0))
+        self.button_0=tk.Button(self.left_frame, text="0", font=("Arial", _scale_val(40, self.scale)), command=lambda:self._enter_score(0))
         self.button_0.place(relx=0.5, rely=0.6, anchor=tk.S)
 
-        self.button_1=tk.Button(self.left_frame, text="1", font=("Arial", _scale_val(30, self.scale)), command=lambda:self._enter_score(1))
+        self.button_1=tk.Button(self.left_frame, text="1", font=("Arial", _scale_val(40, self.scale)), command=lambda:self._enter_score(1))
         self.button_1.place(relx=0.35, rely=0.65, anchor=tk.S)
 
-        self.button_2=tk.Button(self.left_frame, text="2", font=("Arial", _scale_val(30, self.scale)), command=lambda:self._enter_score(2))
+        self.button_2=tk.Button(self.left_frame, text="2", font=("Arial", _scale_val(40, self.scale)), command=lambda:self._enter_score(2))
         self.button_2.place(relx=0.65, rely=0.65, anchor=tk.S)
 
-        self.button_3=tk.Button(self.left_frame, text="3", font=("Arial", _scale_val(30, self.scale)), command=lambda:self._enter_score(3))
+        self.button_3=tk.Button(self.left_frame, text="3", font=("Arial", _scale_val(40, self.scale)), command=lambda:self._enter_score(3))
         self.button_3.place(relx=0.35, rely=0.7, anchor=tk.S)
 
-        self.button_4=tk.Button(self.left_frame, text="4", font=("Arial", _scale_val(30, self.scale)), command=lambda:self._enter_score(4))
+        self.button_4=tk.Button(self.left_frame, text="4", font=("Arial", _scale_val(40, self.scale)), command=lambda:self._enter_score(4))
         self.button_4.place(relx=0.65, rely=0.7, anchor=tk.S)
 
-        self.button_5=tk.Button(self.left_frame, text="5", font=("Arial", _scale_val(30, self.scale)), command=lambda:self._enter_score(5))
+        self.button_5=tk.Button(self.left_frame, text="5", font=("Arial", _scale_val(40, self.scale)), command=lambda:self._enter_score(5))
         self.button_5.place(relx=0.35, rely=0.75, anchor=tk.S)
 
-        self.button_6=tk.Button(self.left_frame, text="6", font=("Arial", _scale_val(30, self.scale)), command=lambda:self._enter_score(6))
+        self.button_6=tk.Button(self.left_frame, text="6", font=("Arial", _scale_val(40, self.scale)), command=lambda:self._enter_score(6))
         self.button_6.place(relx=0.65, rely=0.75, anchor=tk.S)
 
     # Functions relating to "Scoring" layout
@@ -418,7 +422,7 @@ Enter a score below.
         :ivar coords: A list to contain the four scaled, square selection coordinates.
         '''
         if not (self.rect_end_x == None and self.rect_end_y == None):
-            self.coords = [_round_to_even(self.rect_start_x/self.scale), _round_to_even(self.rect_end_x/self.scale), _round_to_even(self.rect_start_y/self.scale), _round_to_even(self.rect_end_y/self.scale)]
+            self.coords = [_round_to_even(self.rect_start_x/self.scale*self.normscale), _round_to_even(self.rect_end_x/self.scale*self.normscale), _round_to_even(self.rect_start_y/self.scale*self.normscale), _round_to_even(self.rect_end_y/self.scale*self.normscale)]
 
             self._make_square_coords()
 
