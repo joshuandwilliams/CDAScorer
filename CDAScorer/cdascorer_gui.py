@@ -95,6 +95,17 @@ class MainWindow:
         self.key_bytes = files('cdascorer-data').joinpath("lesion_score_key.jpg").read_bytes()
         self.key = Image.open(io.BytesIO(self.key_bytes))
         self.key_tk = ImageTk.PhotoImage(self.key)
+
+        self.key = self.key.convert('RGB')
+        self.mode = self.key.mode
+        print(self.mode)
+        self.pixel_map = self.key.load()
+        self.first_pixel = self.pixel_map[0, 0]
+        print(self.first_pixel)
+
+
+
+
         self.key_scale = self.resized_img.width / self.key.width
         self.resized_key = self.key.resize((round(self.key.width*self.key_scale), round(self.key.height*self.key_scale)))
         self.resized_key_tk = ImageTk.PhotoImage(self.resized_key)

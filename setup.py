@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="cdascorer",
-    version='0.0.0.dev13',
+    version='0.0.0.dev14',
     packages = ['cdascorer', 'cdascorer-data'],
     url="https://github.com/joshuandwilliams/CDAScorer",
     license='LICENSE.txt',
