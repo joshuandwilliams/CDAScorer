@@ -112,7 +112,7 @@ def _record_cdata(source_folder, df, num_spots):
     # Loop through image files, starting at current_metadata.image
     root = tk.Tk()
     root.title("CDAScorer")
-    main_window = cdascorer.cdascorer_gui_windows.MainWindow(root, cdata, current_metadata, args.window_width, args.num_spots)
+    main_window = cdascorer.cdascorer_gui.MainWindow(root, cdata, current_metadata, args.window_width, args.num_spots)
     root.protocol("WM_DELETE_WINDOW", main_window._save_and_quit)
     root.mainloop()
 
