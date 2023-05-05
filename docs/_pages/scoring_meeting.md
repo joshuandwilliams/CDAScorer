@@ -43,3 +43,13 @@ Windows:
 
 ```cdascorer-windows.py -s .```
 
+## Scoring Guidance
+
+The row and columns should ALWAYS start from the top left leaf. Proceed as if reading lines on a page, no matter the orientation of the photo.
+The first position of the leaf should ALWAYS be the first CDA encountered when counting anticlockwise from the top of the central vein, no matter the orientation of the leaf.
+
+If the image contains 5 leaves in a dice-5 pattern, consider there to be 3 rows and 3 columns. Skip the intermediates.
+
+Skip any orange chimaeric CDAs, but still score the yellow CDAs on the same leaf (you can use the "next" button").
+
+You can view your scores for a particular image by typing ```cdascorer-view -d cdata.csv -i IMAGENAME``` where IMAGENAME is the name of the image you wish to view.
