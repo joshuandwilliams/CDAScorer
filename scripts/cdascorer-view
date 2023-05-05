@@ -28,7 +28,7 @@ data = pd.read_csv(args.data)
 match = 0
 for file in data['img'].astype("string"):
     match += 1
-    if os.path.basename(file) == args.image:
+    if os.path.basename(file) == os.path.basename(args.image):
         break
 
 if match == 0:
@@ -56,11 +56,11 @@ canvas = tk.Canvas(frame, width=resized_width, height=resized_height)
 canvas.create_image(0,0, anchor=tk.NW, image=img_tk)
 canvas.pack(fill=tk.BOTH, expand=True)
 
+
 for index, row in data.iterrows():
-    # Place box
-    canvas.create_rectangle(row['x1']*scale, row['y1']*scale, row['x2']*scale, row['y2']*scale, outline="red", tags="rectangle")
-    # Place text
-    canvas.create_text((row['x1']*scale)+5, (row['y1']*scale)+7, text=row['score'], fill="red")
+    if os.path.basename(data.loc[index, 'img']) == os.path.basename(args.image):
+        canvas.create_rectangle(row['x1']*scale, row['y1']*scale, row['x2']*scale, row['y2']*scale, outline="red", tags="rectangle")
+        canvas.create_text((row['x1']*scale)+5, (row['y1']*scale)+7, text=row['score'], fill="red")
 
 root.mainloop()
 
