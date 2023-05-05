@@ -1,0 +1,70 @@
+#!/urs/bin/env python
+
+'''
+cdascorer-view
+
+A tool for viewing (and saving) existing scores on an image
+'''
+
+import os
+import sys
+import pandas as pd
+import argparse
+import tkinter as tk
+from PIL import ImageTk, Image
+import math
+
+parser = argparse.ArgumentParser(add_help=True,  formatter_class=argparse.RawDescriptionHelpFormatter, description = "test-script")
+parser.add_argument("-d", "--data", help="CDAScorer CSV file containing scores")
+parser.add_argument("-i", "--image", help="Filename of image to be viewed")
+args = parser.parse_args()
+
+# Take as argument a data file and an image file name
+if not os.path.exists(args.data):
+    sys.exit(f"The data file {args.data} does not exist")
+
+data = pd.read_csv(args.data)
+
+match = 0
+for file in data['img'].astype("string"):
+    match += 1
+    if os.path.basename(file) == args.image:
+        break
+
+if match == 0:
+    sys.exit(f"The image name {args.image} was not present in the data file {args.data}")
+
+# Plot the image, then over the top, plot boxes in the locations of the four coordinates for each row
+
+def _scale_val(val: int, scale: float):
+    return math.floor(val*scale)
+
+root = tk.Tk()
+root.title("CDAScorer View")
+
+img = Image.open(data.iloc[0, match-1]) # Open Image
+img_tk = ImageTk.PhotoImage(img) #TK version of image to get dimensions
+scale = (root.winfo_screenwidth()/3000)/(img_tk.width()/1350) # Scale to screen size
+resized_width, resized_height = round(img_tk.width()*scale), round(img_tk.height()*scale)
+img = img.resize((resized_width, resized_height)) # Resize to screen size
+img_tk = ImageTk.PhotoImage(img) # Resized TK version
+
+frame = tk.Frame(root, width=resized_width, height=resized_height) # Create a frame of the same size as resized image
+frame.pack(fill=tk.BOTH, expand=True)
+
+canvas = tk.Canvas(frame, width=resized_width, height=resized_height)
+canvas.create_image(0,0, anchor=tk.NW, image=img_tk)
+canvas.pack(fill=tk.BOTH, expand=True)
+
+for index, row in data.iterrows():
+    # Place box
+    canvas.create_rectangle(row['x1']*scale, row['y1']*scale, row['x2']*scale, row['y2']*scale, outline="red", tags="rectangle")
+    # Place text
+    canvas.create_text((row['x1']*scale)+5, (row['y1']*scale)+7, text=row['score'], fill="red")
+
+root.mainloop()
+
+# Option to save canvas as image?
+# postscript as unicode string
+# convert unicode to bytes and feed to io.BytesIO
+# feed to Image.open, then save.

@@ -107,6 +107,7 @@ CURRENT METADATA:
                     else:
                         # Check if there are any images left
                         if not self.img == self.img_files[-1]:
+                            print("End of Image Reached")
                             self.img = self.img_files[self.img_files.index(self.img)+1]
                             self.pos = 1
                             self.row = 1

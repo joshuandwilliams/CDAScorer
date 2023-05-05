@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 '''
 cdascorer-run
 
@@ -34,7 +33,6 @@ import tkinter as tk
 parser = argparse.ArgumentParser(add_help=True, formatter_class=argparse.RawDescriptionHelpFormatter, description = "test-script")
 parser.add_argument("-s", "--source_folder", help="folder containing images to analyse", type=str, default=".")
 parser.add_argument("-f", "--file", help="cdata csv file to update. created if does not exist.", type=str, default="cdata.csv")
-parser.add_argument("-n", "--num_spots", help="the number of spots per leaf. must be consistent across all leaves", type=int, default=8)
 parser.add_argument("-t", "--test", help="use an existing image to test the program. true or false", type=bool, default=False)
 args = parser.parse_args()
 
@@ -53,9 +51,6 @@ else:
     if not list(cdata.columns.values) == ["img", "maxrow", "maxcol", "row", "col", "pos", "score", "x1", "x2", "y1", "y2"]:
         sys.exit(f"ERROR: input file {args.file} contains incorrect column names")
 
-if args.num_spots <= 0:
-    sys.exit("ERROR: number of spots per leaf cannot be less than or equal to zero")
-
 def _save_and_quit(df, file_path):
     '''
     _save_and_quit()
@@ -72,7 +67,7 @@ def _save_and_quit(df, file_path):
     sys.exit()
 
 
-def _record_cdata(source_folder, df, num_spots):
+def _record_cdata(source_folder, df):
     '''
     record_cdata()
 
@@ -94,7 +89,7 @@ def _record_cdata(source_folder, df, num_spots):
 
     # Initialise CDAMetadata Object
     current_metadata = cdascorer.cdametadata.CDAMetadata(image_files, df)
-
+    '''
     if current_metadata.row == current_metadata.maxrow:
         if current_metadata.col == current_metadata.maxcol:
             if current_metadata.pos == args.num_spots:
@@ -104,17 +99,11 @@ def _record_cdata(source_folder, df, num_spots):
 
     if not current_metadata.score == None:
         current_metadata = current_metadata._update(args.num_spots)
-
+    '''
     # Loop through image files, starting at current_metadata.image
     root = tk.Tk()
     root.title("CDAScorer")
-    print(f"Scaling by resolution: Width {root.winfo_screenwidth()}, Height {root.winfo_screenheight()}")
-
-    # Generate Scale
-    window_scale = root.winfo_screenwidth()/3000
-    print(window_scale)
-
-    main_window = cdascorer.cdascorer_gui.MainWindow(root, cdata, current_metadata, args.num_spots, window_scale)
+    main_window = cdascorer.cdascorer_gui.MainWindow(root, cdata, current_metadata)
     root.protocol("WM_DELETE_WINDOW", main_window._save_and_quit)
     root.mainloop()
 
@@ -124,6 +113,6 @@ def _record_cdata(source_folder, df, num_spots):
 
 if __name__ == '__main__':
     if args.test == True:
-        _record_cdata(None, cdata, args.num_spots)
+        _record_cdata(None, cdata)
     else:
-        _record_cdata(args.source_folder, cdata, args.num_spots)
+        _record_cdata(args.source_folder, cdata)

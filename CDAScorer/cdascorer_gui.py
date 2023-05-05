@@ -35,7 +35,7 @@ class MainWindow:
     Each time the state changes (including updating from Scoring to Scoring), the previous objects are destroyed and new objects placed.
 
     '''
-    def __init__(self, root, cdata, metadata, num_spots: int, scale: int):
+    def __init__(self, root, cdata, metadata, scale: int):
         '''
         MainWindow()
 
@@ -74,7 +74,6 @@ class MainWindow:
         self.dataframe = cdata
         self.metadata = metadata
         self.scale = scale
-        self.num_spots = num_spots
 
         # Loading current image and lesion score key into memory
         self.img_path = self.metadata.img
@@ -93,18 +92,8 @@ class MainWindow:
         self.resized_img_tk = ImageTk.PhotoImage(self.resized_img)
 
         self.key_bytes = files('cdascorer-data').joinpath("lesion_score_key.jpg").read_bytes()
-        self.key = Image.open(io.BytesIO(self.key_bytes))
+        self.key = Image.open(io.BytesIO(self.key_bytes), formats=["JPEG"])
         self.key_tk = ImageTk.PhotoImage(self.key)
-
-        self.key = self.key.convert('RGB')
-        self.mode = self.key.mode
-        print(self.mode)
-        self.pixel_map = self.key.load()
-        self.first_pixel = self.pixel_map[0, 0]
-        print(self.first_pixel)
-
-
-
 
         self.key_scale = self.resized_img.width / self.key.width
         self.resized_key = self.key.resize((round(self.key.width*self.key_scale), round(self.key.height*self.key_scale)))
@@ -144,10 +133,8 @@ class MainWindow:
         if self.metadata.end_of_data == True:
             print("End of data")
             self._save_and_quit()
-        elif self.metadata.row == 1 and self.metadata.col == 1 and self.metadata.pos == 1:
-            self._scoring_to_grid()
         else:
-            self._grid_to_scoring()
+            self._scoring_to_grid()
 
 
     def _scoring_to_grid(self):
@@ -191,6 +178,8 @@ class MainWindow:
             self.col_input.destroy()
             self.input_submit.destroy()
             self.button_exit.destroy()
+            self.count_input.destroy()
+            self.count_info.destroy()
 
         # If metadata.img has been updated, load the new images.
         if self.metadata.end_of_data == True:
@@ -201,8 +190,8 @@ class MainWindow:
             self.img_path = self.metadata.img
             self.img = Image.open(self.img_path)
             self.img_tk = ImageTk.PhotoImage(self.img)
-            self.scale = self.scale/self.img.width # 500 arbitrary size - just means it fits on screen
-            self.resized_img = self.img.resize((round(self.img.width*self.scale), round(self.img.height*self.scale)))
+            self.normscale = self.img.width/1350
+            self.resized_img = self.img.resize((round(self.img.width*self.scale/self.normscale), round(self.img.height*self.scale/self.normscale)))
             self.resized_img_tk = ImageTk.PhotoImage(self.resized_img)
 
         # Bottom panel containing (or not containing) key
@@ -218,7 +207,7 @@ of rows and columns in
 this image.
         """, width=self.left_width, font=("Arial", _scale_val(30, self.scale)))
 
-        self.scoring_info.place(relx=0.5, rely=0.1, anchor=tk.N, relwidth=1.0)
+        self.scoring_info.place(relx=0.5, rely=0.05, anchor=tk.N, relwidth=1.0)
 
         self.button_exit=tk.Button(self.left_frame, text="Save and Exit", command=self._save_and_quit, font=("Arial", _scale_val(30, self.scale)))
         self.button_exit.place(relx=0, rely=0, anchor=tk.NW)
@@ -232,21 +221,30 @@ this image.
         self.row_info = tk.Label(self.left_frame, text="""
 Number of rows:
         """, justify=tk.CENTER, font=("Arial", _scale_val(30, self.scale)), height=1)
-        self.row_info.place(relx=0.5, rely=0.4, anchor=tk.S)
+        self.row_info.place(relx=0.5, rely=0.3, anchor=tk.S)
 
         self.row_input = tk.Entry(self.left_frame, font=("Arial", _scale_val(30, self.scale)))
-        self.row_input.place(relx=0.5, rely=0.5, anchor=tk.S, relwidth=0.5)
+        self.row_input.place(relx=0.5, rely=0.4, anchor=tk.S, relwidth=0.5)
 
         self.col_info = tk.Label(self.left_frame, text="""
 Number of columns:
         """, justify=tk.CENTER, font=("Arial", _scale_val(30, self.scale)), height=1)
-        self.col_info.place(relx=0.5, rely=0.6, anchor=tk.S)
+        self.col_info.place(relx=0.5, rely=0.5, anchor=tk.S)
 
         self.col_input = tk.Entry(self.left_frame, font=("Arial", _scale_val(30, self.scale)))
-        self.col_input.place(relx=0.5, rely=0.7, anchor=tk.S, relwidth=0.5)
+        self.col_input.place(relx=0.5, rely=0.6, anchor=tk.S, relwidth=0.5)
+
+        self.count_info = tk.Label(self.left_frame, text="""
+Number of CDAs per leaf:
+        """, justify=tk.CENTER, font=("Arial", _scale_val(30, self.scale)), height=1)
+        self.count_info.place(relx=0.5, rely=0.7, anchor=tk.S)
+
+        self.count_input = tk.Entry(self.left_frame, font=("Arial", _scale_val(30, self.scale)))
+        self.count_input.place(relx=0.5, rely=0.8, anchor=tk.S)
 
         self.input_submit = tk.Button(self.left_frame, text="Submit", command=self._get_entry_values, font=("Arial", _scale_val(30, self.scale)))
-        self.input_submit.place(relx=0.5, rely=0.8, anchor=tk.S)
+        self.input_submit.place(relx=0.5, rely=0.9, anchor=tk.S)
+        
 
     # Functions relating to "Grid" layout
 
@@ -261,14 +259,24 @@ Number of columns:
         '''
 
         self.metadata.maxrow, self.metadata.maxcol = self.row_input.get(), self.col_input.get()
+        self.num_spots_entry = self.count_input.get()
 
         if self.metadata.maxrow.isdigit() == False or self.metadata.maxcol.isdigit() == False:
             print("Please only enter integers into the row and column boxes")
             self._scoring_to_grid()
+        # If the CDA count entry box is used, need to make sure the value entered is an integer also
+        elif self.num_spots_entry.isdigit() == False:
+            print("Please only enter an integer into the spot_per_leaf box")
         else:
-            self.metadata.maxrow, self.metadata.maxcol = int(self.metadata.maxrow), int(self.metadata.maxcol)
-            #print(f"Number of rows: {self.metadata.maxrow}\nNumber of columns: {self.metadata.maxcol}")
-            self._grid_to_scoring()
+            self.metadata.maxrow, self.metadata.maxcol, self.num_spots = int(self.metadata.maxrow), int(self.metadata.maxcol), int(self.num_spots_entry)
+            #print(f"Number of rows: {self.metadata.maxrow}\nNumber of columns: {self.metadata.maxcol}\nNumber of CDAs per leaf: {self.num_spots}")
+            # If score already exists, update metadata and reload
+            if not self.metadata.score == None:
+                self.metadata._update(self.num_spots)
+                if not self.metadata.img == self.img_path:
+                    self._scoring_to_grid()
+            else:        
+                self._grid_to_scoring()
 
 
 
@@ -293,13 +301,14 @@ Number of columns:
         # Remove previous placed objects
         if hasattr(self, "row_info"):
             self.img_label.destroy()
-            #self.grid_input_info.destroy()
             self.row_info.destroy()
             self.row_input.destroy()
             self.col_info.destroy()
             self.col_input.destroy()
             self.input_submit.destroy()
             self.button_exit.destroy()
+            self.count_input.destroy()
+            self.count_info.destroy()
         if hasattr(self, "scoring_info_label"):
             self.coords_info_label.destroy()
             self.button_prev.destroy()
@@ -319,10 +328,11 @@ Number of columns:
         # Check if correct image
         if not self.metadata.img == self.img_path:
             self.img_path = self.metadata.img
+            print(self.img_path)
             self.img = Image.open(self.img_path)
             self.img_tk = ImageTk.PhotoImage(self.img)
-            self.scale = self.scale/self.img.width # 500 arbitrary size - just means it fits on screen
-            self.resized_img = self.img.resize((round(self.img.width*self.scale), round(self.img.height*self.scale)))
+            self.normscale = self.img.width/1350
+            self.resized_img = self.img.resize((round(self.img.width*self.scale/self.normscale), round(self.img.height*self.scale/self.normscale)))
             self.resized_img_tk = ImageTk.PhotoImage(self.resized_img)
 
         # Bottom panel containing key
@@ -379,22 +389,22 @@ Enter a score below.
         self.button_0.place(relx=0.5, rely=0.6, anchor=tk.S)
 
         self.button_1=tk.Button(self.left_frame, text="1", font=("Arial", _scale_val(40, self.scale)), command=lambda:self._enter_score(1))
-        self.button_1.place(relx=0.35, rely=0.65, anchor=tk.S)
+        self.button_1.place(relx=0.35, rely=0.70, anchor=tk.S)
 
         self.button_2=tk.Button(self.left_frame, text="2", font=("Arial", _scale_val(40, self.scale)), command=lambda:self._enter_score(2))
-        self.button_2.place(relx=0.65, rely=0.65, anchor=tk.S)
+        self.button_2.place(relx=0.65, rely=0.70, anchor=tk.S)
 
         self.button_3=tk.Button(self.left_frame, text="3", font=("Arial", _scale_val(40, self.scale)), command=lambda:self._enter_score(3))
-        self.button_3.place(relx=0.35, rely=0.7, anchor=tk.S)
+        self.button_3.place(relx=0.35, rely=0.80, anchor=tk.S)
 
         self.button_4=tk.Button(self.left_frame, text="4", font=("Arial", _scale_val(40, self.scale)), command=lambda:self._enter_score(4))
-        self.button_4.place(relx=0.65, rely=0.7, anchor=tk.S)
+        self.button_4.place(relx=0.65, rely=0.80, anchor=tk.S)
 
         self.button_5=tk.Button(self.left_frame, text="5", font=("Arial", _scale_val(40, self.scale)), command=lambda:self._enter_score(5))
-        self.button_5.place(relx=0.35, rely=0.75, anchor=tk.S)
+        self.button_5.place(relx=0.35, rely=0.90, anchor=tk.S)
 
         self.button_6=tk.Button(self.left_frame, text="6", font=("Arial", _scale_val(40, self.scale)), command=lambda:self._enter_score(6))
-        self.button_6.place(relx=0.65, rely=0.75, anchor=tk.S)
+        self.button_6.place(relx=0.65, rely=0.90, anchor=tk.S)
 
     # Functions relating to "Scoring" layout
     def _on_button_press(self, event):
