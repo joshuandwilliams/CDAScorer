@@ -328,7 +328,6 @@ Number of CDAs per leaf:
         # Check if correct image
         if not self.metadata.img == self.img_path:
             self.img_path = self.metadata.img
-            print(self.img_path)
             self.img = Image.open(self.img_path)
             self.img_tk = ImageTk.PhotoImage(self.img)
             self.normscale = self.img.width/1350
