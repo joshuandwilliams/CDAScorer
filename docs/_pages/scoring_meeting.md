@@ -9,7 +9,7 @@ toc: True
 
 ## Step 1: Make sure you're connected to Eduroam and the shared drive.
 
-If you need a reminder of how to do this please ask.
+If you need a reminder of how to do this please see the 2nd step of the Window or Mac Installation Tutorials in the top bar.
 
 ## Step 2: Navigate to today's directory
 
