@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 '''
 cdascorer-run
 
@@ -89,21 +90,17 @@ def _record_cdata(source_folder, df):
 
     # Initialise CDAMetadata Object
     current_metadata = cdascorer.cdametadata.CDAMetadata(image_files, df)
-    '''
-    if current_metadata.row == current_metadata.maxrow:
-        if current_metadata.col == current_metadata.maxcol:
-            if current_metadata.pos == args.num_spots:
-                if current_metadata.img == image_files[-1]:
-                    print("Dataset already completed")
-                    sys.exit()
 
-    if not current_metadata.score == None:
-        current_metadata = current_metadata._update(args.num_spots)
-    '''
     # Loop through image files, starting at current_metadata.image
     root = tk.Tk()
     root.title("CDAScorer")
-    main_window = cdascorer.cdascorer_gui.MainWindow(root, cdata, current_metadata)
+    print(f"Scaling by resolution: Width {root.winfo_screenwidth()}, Height {root.winfo_screenheight()}")
+
+    # Generate Scale
+    window_scale = root.winfo_screenwidth()/3000
+    print(f"Scale value: {window_scale}")
+
+    main_window = cdascorer.cdascorer_gui.MainWindow(root, cdata, current_metadata, window_scale)
     root.protocol("WM_DELETE_WINDOW", main_window._save_and_quit)
     root.mainloop()
 

@@ -97,10 +97,11 @@ def _record_cdata(source_folder, df):
     print(f"Scaling by resolution: Width {root.winfo_screenwidth()}, Height {root.winfo_screenheight()}")
 
     # Generate Scale
-    window_scale = root.winfo_screenwidth()/3000
-    print(f"Scale value: {window_scale}")
+    window_width = root.winfo_screenwidth()
+    window_height = root.winfo_screenheight()
+    print(f"Width: {window_width}, Height: {window_height}")
 
-    main_window = cdascorer.cdascorer_gui.MainWindow(root, cdata, current_metadata, window_scale)
+    main_window = cdascorer.cdascorer_gui.MainWindow(root, cdata, current_metadata, window_width, window_height)
     root.protocol("WM_DELETE_WINDOW", main_window._save_and_quit)
     root.mainloop()
 
