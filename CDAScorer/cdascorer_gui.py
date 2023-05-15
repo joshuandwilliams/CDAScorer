@@ -98,7 +98,6 @@ class MainWindow:
         else: # Otherwise open the image corresponding to the path
             self.img = Image.open(self.img_path)
         self.img_tk = ImageTk.PhotoImage(self.img)
-        #print(f"Width: {self.img.width}, Height: {self.img.height}")
 
         # Scale image size so that it always fits inside the screen
         self.width_ratio = self.img.width / self.window_width
@@ -129,13 +128,11 @@ class MainWindow:
         self.temp_img_label = tk.Label(self.right_frame, image=self.temp_img, height=self.image_height, width=self.image_width)
         self.temp_img_label.pack(side=tk.BOTTOM)
         self.right_frame.pack(side=tk.RIGHT, anchor=tk.W, expand=True)
+        self.root.update()
+        print(self.right_frame.winfo_height())
 
         # Initialise left panel to have info placed over it
         self.root.update()
-        print(self.temp_img_label.winfo_height())
-        print(self.temp_img_label.winfo_width())
-        print(self.right_frame.winfo_height())
-        print(self.right_frame.winfo_width())
         self.left_frame = tk.Frame(self.root, width=_scale_val(500, self.scale), height=self.right_frame.winfo_height(), bd=2, relief=tk.GROOVE)
         self.left_frame.pack_propagate(0)        
         self.left_width = self.left_frame.winfo_width()
@@ -230,7 +227,8 @@ class MainWindow:
         # Right frame
         # Image label containing current image
         self.img_label = tk.Label(self.right_frame, image=self.resized_img_tk)
-        self.img_label.place(x=0, y=1, anchor=tk.NW, relwidth=1.0, relheight=1.0)
+        self.img_label.place(x=0, y=0, anchor=tk.NW, relwidth=1.0, relheight=1.0)
+        self.root.update()
         # Empty grid key
         self.scoring_label.config(image='')
 
@@ -461,8 +459,15 @@ Enter a score below.
         :ivar coords: A list to contain the four scaled, square selection coordinates.
 
         '''
+
+
         if not (self.rect_end_x == None and self.rect_end_y == None):
-            self.coords = [_round_to_even(self.rect_start_x/self.img_scale), _round_to_even(self.rect_end_x/self.img_scale), _round_to_even(self.rect_start_y/self.img_scale), _round_to_even(self.rect_end_y/self.img_scale)]
+            
+            self.coords = [None, None, None, None]
+            self.coords[0] = min(_round_to_even(self.rect_start_x/self.img_scale), _round_to_even(self.rect_end_x/self.img_scale))
+            self.coords[1] = max(_round_to_even(self.rect_start_x/self.img_scale), _round_to_even(self.rect_end_x/self.img_scale))
+            self.coords[2] = min(_round_to_even(self.rect_start_y/self.img_scale), _round_to_even(self.rect_end_y/self.img_scale))
+            self.coords[3] = max(_round_to_even(self.rect_start_y/self.img_scale), _round_to_even(self.rect_end_y/self.img_scale))
 
             self._make_square_coords()
 
@@ -507,6 +512,8 @@ Enter a score below.
         if self.coords[3] > self.img_tk.height():
             self.coords[2] = self.coords[2] - (self.coords[3] - self.img_tk.height())
             self.coords[3] = self.img_tk.height()
+        
+        self.coords[0], self.coords[1], self.coords[2], self.coords[3] = int(self.coords[0]), int(self.coords[1]), int(self.coords[2]), int(self.coords[3])
 
     def _enter_score(self, score: int):
         '''
