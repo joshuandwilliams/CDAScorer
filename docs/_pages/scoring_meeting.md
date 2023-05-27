@@ -5,7 +5,7 @@ classes: wide
 toc: True
 ---
 
-There is a video form of this tutorial at: YOUTUBE LINK HERE.
+There is a video form of this tutorial [at this link](https://youtu.be/mnZx5ndiYMM).
 
 
 ## Step 1: Make sure you're connected to Eduroam and the shared drive.
