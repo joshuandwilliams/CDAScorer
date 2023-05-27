@@ -1,9 +1,12 @@
 ---
 permalink: /scoring_meeting/
-title: "Instructions for Banfield Scoring Meeting 27/03/2023"
+title: "Instructions for Banfield Group Scoring"
 classes: wide
 toc: True
 ---
+
+There is a video form of this tutorial at: YOUTUBE LINK HERE.
+
 
 ## Step 1: Make sure you're connected to Eduroam and the shared drive.
 
@@ -11,11 +14,17 @@ If you need a reminder of how to do this please see the 2nd step of the Window o
 
 ## Step 2: Navigate to today's directory
 
-In the command line type:
+For Mac users, in the command line type:
 
 ```cd /Volumes/shared/Research-Groups/Mark-Banfield/Josh_Williams/Scoring_5May/```
 
-Then, type ```ls```. You should see your name. Type ```cd YOURNAME``` where YOURNAME is the name of the folder with your name on it.
+On Windows you need to first enter the volume that you mapped the shared drive to, e.g. Z ```z:```. Then you can type:
+
+```cd Research-Groups\\Mark-Banfield\\Josh_Williams\\Scoring_5May\\```
+
+Note: I don't have a Windows laptop to test this on so it may not be exactly correct - please use your intuition to modify this command and reach the correct folder.
+
+Then, type ```ls``` (for Windows ```dir```). You should see your name. Type ```cd YOURNAME``` where YOURNAME is the name of the folder with your name on it.
 
 If you type ```ls``` again, you will see there are images in your folder. These are the images you will need to score.
 
@@ -25,7 +34,7 @@ In the command line type:
 
 ```conda activate CDAScorer```
 
-## Step 4: Update the CDAScorer package
+## Step 4: Update the CDAScorer package to the latest version
 
 In the command line type:
 
