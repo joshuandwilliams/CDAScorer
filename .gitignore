@@ -9,3 +9,4 @@ push_to_pypi*
 /testimg/
 *.csv
 UpdatePackage.sh
+/scoreprep/
