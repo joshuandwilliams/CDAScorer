@@ -68,3 +68,7 @@ root.mainloop()
 # postscript as unicode string
 # convert unicode to bytes and feed to io.BytesIO
 # feed to Image.open, then save.
+
+# Windows version
+
+# Need to scale image down to fit screen.
