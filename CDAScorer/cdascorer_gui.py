@@ -1,23 +1,15 @@
 '''
 tkinterwindow.py
-
-
 '''
+import numpy as np
+import pandas as pd
+import io
+
 import tkinter as tk
 from PIL import ImageTk, Image
-from tkinter import messagebox
-import math
-import pandas as pd
+
 from importlib_resources import files
-import io
-from sys import platform
 import cdascorer
-
-def _round_to_even(val: int):
-    return math.ceil(val/2.)*2
-
-def _scale_val(val: int, scale: float):
-    return math.floor(val*scale*0.75)
 
 class MainWindow:
     '''
@@ -459,6 +451,12 @@ Enter a score below.
         :ivar coords: A list to contain the four scaled, square selection coordinates.
 
         '''
+
+        def _round_to_even(val: int):
+            return np.ceil(np.asanyarray(val) / 2.) * 2
+
+        def _scale_val(val: int, scale: float):
+            return np.floor(np.asanyarray(val) * scale * 0.75)
 
 
         if not (self.rect_end_x == None and self.rect_end_y == None):

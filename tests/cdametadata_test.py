@@ -1,5 +1,5 @@
 import pytest
-import cdataml
+import cdascorer
 import pandas as pd
 
 # Mock file_names object

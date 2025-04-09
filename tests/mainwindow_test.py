@@ -1,5 +1,5 @@
 import pytest
-import cdataml
+import cdascorer
 import numpy as np
 
 

@@ -27,7 +27,6 @@ import sys
 import pandas as pd
 import argparse
 from pathlib import Path
-import numpy as np
 from datetime import datetime
 import tkinter as tk
 
