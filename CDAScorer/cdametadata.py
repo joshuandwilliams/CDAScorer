@@ -41,13 +41,13 @@ class CDAMetadata(object):
                 self.score = None
             else:
                 last_row = df.iloc[-1]
-                self.img = last_row[0]
-                self.maxrow = last_row[1]
-                self.maxcol = last_row[2]
-                self.row = last_row[3]
-                self.col = last_row[4]
-                self.pos = last_row[5]
-                self.score = last_row[6]
+                self.img = last_row["img"]
+                self.maxrow = last_row["maxrow"]
+                self.maxcol = last_row["maxcol"]
+                self.row = last_row["row"]
+                self.col = last_row["col"]
+                self.pos = last_row["pos"]
+                self.score = last_row["score"]
             self.x1 = None
             self.x2 = None
             self.y1 = None
@@ -92,21 +92,21 @@ CURRENT METADATA:
 
             '''
             # Check if there are any spots left on the leaf
-            if not self.pos == num_spots:
+            if self.pos != num_spots:
                 self.pos += 1
             else:
                 self.pos = 1
                 # Check if there are any leaves left in the row
-                if not self.col == self.maxcol:
+                if self.col != self.maxcol:
                     self.col += 1
                 else:
                     self.col = 1
                     # Check if there are any columns left in the image
-                    if not self.row == self.maxrow:
+                    if self.row != self.maxrow:
                         self.row += 1
                     else:
                         # Check if there are any images left
-                        if not self.img == self.img_files[-1]:
+                        if self.img != self.img_files[-1]:
                             print("End of Image Reached")
                             self.img = self.img_files[self.img_files.index(self.img)+1]
                             self.pos = 1

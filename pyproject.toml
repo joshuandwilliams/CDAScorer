@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cdascorer"
-version = "0.0.0.dev26"
+version = "0.1.0"
 description = "Cell Death Area Data Collection"
 readme = "README.md"
 license = { file = "LICENSE.txt" }
@@ -12,23 +12,18 @@ authors = [
   { name = "Joshua Williams", email = "jowillia@nbi.ac.uk" }
 ]
 urls = { "Homepage" = "https://github.com/joshuandwilliams/CDAScorer" }
-requires-python = ">=3.7"
+requires-python = ">=3.9"
 dependencies = [
   "pandas",
-  "natsort",
-  "importlib_resources",
-  "Pillow"
+  "Pillow",
 ]
 
 [project.scripts]
-cdascorer = "scripts.cdascorer"
-cdascorer_test = "scripts.cdascorer_test"
-cdascorer_windows = "scripts.cdascorer_windows"
-cdascorer_windows_test = "scripts.cdascorer_windows_test"
-cdascorer_view = "scripts.cdascorer_view"
+cdascorer = "cdascorer.cli:main"
+cdascorer-view = "cdascorer.viewer:main"
 
 [tool.setuptools.packages.find]
-include = ["cdascorer", "cdascorer_data"]
+include = ["cdascorer", "cdascorer.*"]
 
 [tool.setuptools.package-data]
-"cdascorer_data" = ["lesion_score_key.jpg", "test_cda_img.jpg"]
+"cdascorer" = ["data/*.jpg"]
