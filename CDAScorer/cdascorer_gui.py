@@ -426,7 +426,7 @@ class MainWindow:
         self.canvas.create_rectangle(
             self.rect_start_x, self.rect_start_y,
             self.rect_end_x, self.rect_end_y,
-            outline="red", tags="rectangle",
+            outline="blue", width=2, tags="rectangle",
         )
 
     def _on_button_release(self, event):
@@ -535,8 +535,8 @@ class MainWindow:
     def _prev_CDA(self):
         """
         Go back to the previous CDA and allow it to be re-scored.
-        Removes the last row from the dataframe and reconstructs metadata
-        from what remains.
+        Reconstructs metadata from the last row (the one to redo),
+        then removes that row from the dataframe.
         """
         if len(self.dataframe) == 0:
             print("No previous CDA to go back to.")
@@ -544,13 +544,19 @@ class MainWindow:
 
         print("Removing previous CDA metadata record. Please input new metadata.")
 
-        # Remove the last row FIRST, then reconstruct metadata from what remains.
-        self.dataframe = self.dataframe.iloc[:-1]
+        # Reconstruct metadata from the last row — this is the CDA we want
+        # to go back to and re-score.
         self.metadata = CDAMetadata(self.metadata.img_files, self.dataframe)
 
-        # Clear the score so the grid/scoring flow treats this as a fresh CDA
-        # to be annotated, not one to advance past.
+        # Clear score and coords so the flow treats it as a fresh CDA.
         self.metadata.score = None
+        self.metadata.x1 = None
+        self.metadata.x2 = None
+        self.metadata.y1 = None
+        self.metadata.y2 = None
+
+        # Now remove it from the dataframe.
+        self.dataframe = self.dataframe.iloc[:-1]
 
         self._route_to_state()
 

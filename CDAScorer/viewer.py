@@ -69,11 +69,11 @@ def _view(data: pd.DataFrame, image_path: str) -> None:
             y1 = row["y1"] * scale
             x2 = row["x2"] * scale
             y2 = row["y2"] * scale
-            canvas.create_rectangle(x1, y1, x2, y2, outline="red", width=2)
+            canvas.create_rectangle(x1, y1, x2, y2, outline="blue", width=3)
             canvas.create_text(
                 x1 + 5, y1 + 7,
                 text=str(int(row["score"])),
-                fill="red",
+                fill="blue",
                 anchor=tk.NW,
                 font=("Arial", 12),
             )

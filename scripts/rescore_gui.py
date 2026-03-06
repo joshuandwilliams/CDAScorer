@@ -83,22 +83,12 @@ class RescoreWindow:
     # ──────────────────────────────────────────────
 
     def _load_and_scale_image(self, image_path: str):
-        """Load an image, draw the bounding box on it, and scale to fit the window."""
+        """Load an image, scale it to fit the window, then draw the bounding box."""
         record = self.cda_records[self.current_index]
 
         img = Image.open(image_path).copy()
 
-        # Draw the bounding box onto the image
-        draw = ImageDraw.Draw(img)
-        x1, x2 = int(record["x1"]), int(record["x2"])
-        y1, y2 = int(record["y1"]), int(record["y2"])
-        for offset in range(3):  # Draw a few pixels thick
-            draw.rectangle(
-                [x1 - offset, y1 - offset, x2 + offset, y2 + offset],
-                outline="red",
-            )
-
-        # Scale to fit window
+        # Scale to fit window FIRST
         width_ratio = img.width / self.window_width
         height_ratio = img.height / self.window_height
         if width_ratio > height_ratio:
@@ -110,6 +100,19 @@ class RescoreWindow:
             round(img.width * self.img_scale),
             round(img.height * self.img_scale),
         ))
+
+        # Draw the bounding box AFTER scaling so the line thickness is in screen pixels
+        draw = ImageDraw.Draw(resized)
+        x1 = int(record["x1"] * self.img_scale)
+        x2 = int(record["x2"] * self.img_scale)
+        y1 = int(record["y1"] * self.img_scale)
+        y2 = int(record["y2"] * self.img_scale)
+        for offset in range(3):  # 3 screen pixels thick
+            draw.rectangle(
+                [x1 - offset, y1 - offset, x2 + offset, y2 + offset],
+                outline="blue",
+            )
+
         self.resized_img_tk = ImageTk.PhotoImage(resized)
 
         # Scale the scoring key to match image width
@@ -186,7 +189,7 @@ class RescoreWindow:
             self.left_frame, font=font,
             text=f"CDA {self.current_index + 1} / {len(self.cda_records)}",
         )
-        self.progress_label.place(relx=0.5, rely=0.02, anchor=tk.N)
+        self.progress_label.place(relx=0.5, rely=0.06, anchor=tk.N)
 
         self.info_label = tk.Label(
             self.left_frame, font=font,
@@ -196,11 +199,11 @@ class RescoreWindow:
                 f"\nCol: {record['col']}"
                 f"\nPos: {record['pos']}"
                 f"\n\nThe bounding box is"
-                f"\nhighlighted in red."
+                f"\nhighlighted in blue."
                 f"\n\nEnter a score (0-6):\n"
             ),
         )
-        self.info_label.place(relx=0.5, rely=0.08, anchor=tk.N, relwidth=1.0)
+        self.info_label.place(relx=0.5, rely=0.12, anchor=tk.N, relwidth=1.0)
 
         self.scoring_info_label = tk.Label(
             self.left_frame, font=font,

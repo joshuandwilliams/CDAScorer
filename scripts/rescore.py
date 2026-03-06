@@ -137,6 +137,11 @@ def main() -> None:
     if len(scorer_cdas) == 0:
         sys.exit(f"ERROR: scorer '{args.scorer}' not found in the data file")
 
+    # Exclude CDAs with median score 0 (near-universal agreement, not meaningful to rescore)
+    scorer_cdas = scorer_cdas[scorer_cdas["median_score"] != 0]
+    if len(scorer_cdas) == 0:
+        sys.exit(f"ERROR: all CDAs for '{args.scorer}' have median score 0")
+
     if len(scorer_cdas) < args.num_samples:
         print(
             f"WARNING: scorer '{args.scorer}' only has {len(scorer_cdas)} CDAs, "
