@@ -1,10 +1,8 @@
 # main links
 main:
+  - title: "Install"
+    url: /install/
   - title: "Tutorial"
     url: /tutorial/
-  - title: "Windows Install"
-    url: /windows_install/
-  - title: "Mac Install"
-    url: /mac_install/
   - title: "Scoring Meeting"
     url: /scoring_meeting/

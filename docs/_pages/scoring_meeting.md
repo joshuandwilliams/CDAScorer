@@ -5,12 +5,15 @@ classes: wide
 toc: True
 ---
 
+**Archival note:** This page is a record of the instructions for a specific past Banfield group scoring session. The folder paths and dates below refer to that event and are kept for reference. For up-to-date installation instructions, see the [Install]({{ "/install/" | relative_url }}) page; for general usage, see the [Tutorial]({{ "/tutorial/" | relative_url }}).
+{: .notice--warning}
+
 There is a video form of this tutorial [at this link](https://youtu.be/mnZx5ndiYMM).
 
 
 ## Step 1: Make sure you're connected to Eduroam and the shared drive.
 
-If you need a reminder of how to do this please see the 2nd step of the Window or Mac Installation Tutorials in the top bar.
+If you need a reminder of how to do this please see Step 2 of the [Install]({{ "/install/" | relative_url }}) page in the top bar.
 
 ## Step 2: Navigate to today's directory
 
