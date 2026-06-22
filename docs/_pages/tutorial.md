@@ -79,11 +79,11 @@ The number of rows, columns, and CDAs per leaf are no longer command-line option
 
 Upon running the program, the first image will be displayed. The user should input the total number of rows and columns for that image, as well as the number of CDAs per leaf, into the entry boxes and press the "Submit" button.
 
-![Input_Row_Col](./images/Input_Row_Col.png)
+![Layout entry screen](./images/cdascorer-layout-entry-screen.png)
 
 The program will then append the scoring key to the bottom of that image, and the row, column, and position of the current CDA to be scored will appear in the left panel.
 
-![Record_Coords_Score](./images/Record_Coords_Score.png)
+![Annotation screen](./images/cdascorer-annotation-screen.png)
 
 Using the metadata, identify the corresponding CDA. Left click and drag to draw a bounding box around that CDA. The box is automatically squared off and kept within the image bounds, and can simply be re-drawn if a mistake is made.
 
