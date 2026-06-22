@@ -37,3 +37,4 @@ include = ["cdascorer", "cdascorer.*"]
 
 [tool.coverage.run]
 source = ["cdascorer"]
+relative_files = true
