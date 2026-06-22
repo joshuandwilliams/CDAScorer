@@ -18,3 +18,11 @@ __pycache__/
 
 # Test Data
 testdata/
+
+# Jekyll docs site (generated locally / vendored — GitHub Pages builds these itself)
+docs/_site/
+docs/vendor/
+docs/.bundle/
+docs/.jekyll-cache/
+docs/.jekyll-metadata
+docs/.sass-cache/
