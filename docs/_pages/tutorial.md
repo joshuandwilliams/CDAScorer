@@ -12,28 +12,30 @@ Install into a conda environment from PyPI.
 
 ```sh
 $ conda activate <my-env>
-(my-env) $ pip3 install cdascorer
+(my-env) $ pip install cdascorer
 ```
 
-Or install it from GitHub.
+Or install the latest development version from GitHub.
 
 ```sh
 $ conda activate <my-env>
-(my-env) $ pip3 install git+https://github.com/joshuandwilliams/CDAScorer
+(my-env) $ pip install git+https://github.com/joshuandwilliams/CDAScorer
 ```
+
+The same commands work on Windows, Mac, and Linux — there is no separate Windows version. Requires Python 3.9 or later.
 
 ### Quickstart:
 
-Run the package with your own data, where any TIFF images to be used are in a single folder (source folder).
+Run the package on your own data, where the images to be scored are in a single folder (the source folder).
 
 ```sh
-(my-env) $ cdascorer -s <SOURCE-FOLDER> -f <DATA-FILE> -n <CDA_PER_LEAF>
+(my-env) $ cdascorer -s <SOURCE-FOLDER> -f <DATA-FILE>
 ```
 
 Or, run the package on an example image included in the package files.
 
 ```sh
-(my-env) $ cdascorer-test
+(my-env) $ cdascorer --test
 ```
 
 Load the help information:
@@ -42,11 +44,10 @@ Load the help information:
 (my-env) $ cdascorer -h
 ```
 
-On Windows these commands change slightly, and there is an assumption that assume that .PY is in your PATHEXT system variable.
+Once you have scored some data, you can review it overlaid on the original image:
+
 ```sh
-(my-env) $ cdascorer-windows.py -s <SOURCE-FOLDER> -f <DATA-FILE> -n <CDA_PER_LEAF>
-(my-env) $ cdascorer-windows-test.py
-(my-env) $ cdascorer-windows.py -h
+(my-env) $ cdascorer-view -d <DATA-FILE> -i <IMAGE>
 ```
 
 ### Detailed information:
@@ -64,17 +65,19 @@ In the image above, the table shows an example row of data which will be recorde
 3. The score variable is recorded in the program.
 4. The coordinate variables x1, x2, y1, and y2 are recorded in the program also, and represent the horizontal and vertical positions shown in the blue box on the right.
 
+Supported image formats are TIFF (.tif/.tiff), JPEG (.jpg/.jpeg), and PNG (.png).
+
 #### Options:
 
-1. ```-s```: The source folder containing the TIFF images. Defaults to "."
-2. ```-f```: The CSV file to contain the recorded data. If it does not exist, it will be created. Defaults to "cdata.csv"
-3. ```-n```: The number of CDAs per leaf. Defaults to 8.
-4. ```-t```: Defaults to False, but if ```-t True``` supplied, will run the package on an example image. This can be done automatically by running ```cdascorer-test```
-5. ```-w```: The size of the window (specifically, the pixel width of the image to be displayed). Defaults to 1000.
+1. ```-s```, ```--source_folder```: The source folder containing the images. Defaults to ".".
+2. ```-f```, ```--file```: The CSV file to contain the recorded data. If it does not exist, it will be created. Defaults to "cdata.csv".
+3. ```-t```, ```--test```: A flag (takes no value) which runs the package on a built-in example image instead of a source folder.
+
+The number of rows, columns, and CDAs per leaf are no longer command-line options — they are entered in the program for each image (see below).
 
 #### Recording coordinates and scores:
 
-Upon running the program, the first image will be displayed. The user should input the total number of rows and columns for that image as well as the number of CDAs per leaf into the entry boxes and press the "Submit" button.
+Upon running the program, the first image will be displayed. The user should input the total number of rows and columns for that image, as well as the number of CDAs per leaf, into the entry boxes and press the "Submit" button.
 
 ![Input_Row_Col](./images/Input_Row_Col.png)
 
@@ -82,13 +85,13 @@ The program will then append the scoring key to the bottom of that image, and th
 
 ![Record_Coords_Score](./images/Record_Coords_Score.png)
 
-Using the metadata, identify the corresponding CDA. Left click and drag to draw a bounding box around that CDA. The box can simply be re-drawn if a mistake is made.
+Using the metadata, identify the corresponding CDA. Left click and drag to draw a bounding box around that CDA. The box is automatically squared off and kept within the image bounds, and can simply be re-drawn if a mistake is made.
 
 Then, enter the score between 0 and 6 for that CDA by either pressing the corresponding key or clicking the corresponding button.
 
 The metadata at the left panel will update to the next CDA to be scored, and the process of recording coordinates and scores can be repeated.
 
-To quit, click the "Save and Exit" button in the top left. Your progress will be saved to the output file location.
+To quit, click the "Save and Exit" button in the top left. Your progress will be saved to the output file location, and any existing file is first copied to a timestamped ```backup_...``` file.
 
 If the program is run again on this output file, it will begin where you left off.
 
@@ -97,7 +100,7 @@ If the program is run again on this output file, it will begin where you left of
 
 Sometimes leaves will be damaged, resulting in regions being unintelligible, or just being removed from the image altogether.
 
-Non-existent CDAs and leaves can be skipped by pressing the "Next" or "Skip Leaf" buttons in the left pane of the scoring window.
+Non-existent CDAs and leaves can be skipped by pressing the "Next" (skip one CDA) or "Skip Leaf" (skip the rest of the current leaf) buttons in the left pane of the scoring window.
 
 This is particularly useful when leaves are missing due to the image layout.
 
@@ -108,3 +111,13 @@ If you wish to redo a previous score, press the "Prev" button in the left pane o
 
 When you input new coordinate and score values, they will overwrite the previously existing data for that CDA.
 
+
+#### Viewing your scores:
+
+To check your annotations, open a read-only view of an image with all of its scored bounding boxes drawn on in blue and labelled with their scores:
+
+```sh
+(my-env) $ cdascorer-view -d <DATA-FILE> -i <IMAGE>
+```
+
+The ```-i``` argument accepts either a full path or just a filename; if the file is not found directly, its name is looked up against the image paths stored in the data file.

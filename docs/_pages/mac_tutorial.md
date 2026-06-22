@@ -51,10 +51,10 @@ This will install my package as well as any other Python packages it depends on 
 
 ## Step 8: Running the CDAScorer package with test data
 
-Now you are all set to run the program. Run a the test program to verify that it works with the following command ```cdascorer-test```
+Now you are all set to run the program. Run the test program to verify that it works with the following command ```cdascorer --test```
 
-When you enter that command, a user interface should appear. You can press the exit button in the top left to quit.
+When you enter that command, a user interface should appear. You can press the "Save and Exit" button in the top left to quit.
 
-If you enter "ls" into the Terminal window, you should see two new files, one called "test_cdata.csv" and one called "backup_X_test_data.csv", where X is replaced with the day, month, year, hour, minute.
+If you enter "ls" into the Terminal window, you should see a new file called "cdata.csv". If you had run it before, you will also see a "backup_X_cdata.csv", where X is replaced with the day, month, year, hour, minute.
 
 This is great! It means the package is running successfully on your laptop. [Follow this link to start scoring real data!](https://joshuandwilliams.github.io/CDAScorer/scoring_meeting/)

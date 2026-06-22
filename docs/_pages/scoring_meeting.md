@@ -42,13 +42,9 @@ In the command line type:
 
 ## Step 5: Run the package
 
-Mac:
+The same command works on both Mac and Windows:
 
 ```cdascorer -s .```
-
-Windows:
-
-```cdascorer-windows.py -s .```
 
 ## Scoring Guidance
 
