@@ -21,6 +21,7 @@ dependencies = [
 [project.scripts]
 cdascorer = "cdascorer.cli:main"
 cdascorer-view = "cdascorer.viewer:main"
+cdascorer-rescore = "cdascorer.rescore:main"
 
 [tool.setuptools.packages.find]
 include = ["cdascorer", "cdascorer.*"]

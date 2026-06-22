@@ -18,7 +18,7 @@ from datetime import datetime
 import pandas as pd
 import tkinter as tk
 
-from rescore_gui import RescoreWindow
+from cdascorer.rescore_gui import RescoreWindow
 
 OUTPUT_COLUMNS = [
     "scorer", "basename", "row", "col", "pos",

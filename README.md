@@ -49,7 +49,7 @@ cdascorer --test
 cdascorer-view --data output.csv --image /path/to/image.tif
 ```
 
-Opens a read-only view of the image with all scored bounding boxes overlaid in red.
+Opens a read-only view of the image with all scored bounding boxes overlaid in blue.
 
 ## Output format
 

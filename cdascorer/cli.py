@@ -103,13 +103,14 @@ def main() -> None:
     if not os.path.exists(args.source_folder) and not args.test:
         sys.exit(f"ERROR: source folder {args.source_folder} does not exist")
 
+    if not args.file.endswith(".csv"):
+        sys.exit(f"ERROR: input file {args.file} is not a CSV file")
+
     if not os.path.exists(args.file):
         print(f"Input file {args.file} does not exist. Creating ...")
         cdata = pd.DataFrame(columns=COLUMNS)
         cdata.to_csv(args.file, index=False)
     else:
-        if not args.file.endswith(".csv"):
-            sys.exit(f"ERROR: input file {args.file} is not a CSV file")
         cdata = pd.read_csv(args.file)
         if list(cdata.columns) != COLUMNS:
             sys.exit(f"ERROR: input file {args.file} contains incorrect column names")
