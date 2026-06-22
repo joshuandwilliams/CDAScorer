@@ -45,8 +45,13 @@ cdascorer --source_folder /path/to/images/ --file output.csv
 
 This opens a GUI that walks you through each image:
 
-1. **Grid entry** — specify the number of leaf rows and columns in the image, and the number of CDAs per leaf.
-2. **Scoring** — for each CDA, draw a bounding box around it (the box is automatically squared off and clamped to the image bounds) and assign a severity score (0–6).
+1. **Grid entry** — specify the number of leaf rows and columns in the image, and the number of CDAs per leaf, then press **Submit**.
+
+![Grid entry screen](docs/_pages/images/cdascorer-layout-entry-screen.png)
+
+2. **Scoring** — for each CDA, draw a bounding box around it (the box is automatically squared off and clamped to the image bounds) and assign a severity score (0–6). The current row, column, and position are shown in the left panel, and the score key is appended below the image for reference.
+
+![Scoring screen](docs/_pages/images/cdascorer-annotation-screen.png)
 
 Navigation buttons let you go back (**Prev**), advance without scoring (**Next**), jump past all remaining CDAs on a leaf (**Skip Leaf**), or **Save and Exit**. Scores are written to the CSV as you go, and any existing file is renamed to a timestamped `backup_…` copy on exit.
 
@@ -63,6 +68,18 @@ cdascorer --test
 | `-s`, `--source_folder` | `.` | Folder containing images to analyse. |
 | `-f`, `--file` | `cdata.csv` | CSV file to update. Created if it does not exist. |
 | `-t`, `--test` | off | Use the built-in test image instead of a source folder. |
+
+### Severity scores
+
+Each CDA is scored from **0** (no cell death) to **6** (strong cell death). Compare each lesion against this reference key, which is also appended below the image inside the scoring GUI:
+
+![Severity score key, 0 to 6](cdascorer/data/lesion_score_key.jpg)
+
+### CDA positions
+
+Within each leaf, CDAs are numbered from position 1 (upper-left of the central vein) and count anti-clockwise from there. This `pos` value, together with the grid `row`/`col`, identifies which CDA you are scoring:
+
+![CDA position numbering and recorded data format](docs/_pages/images/CDA_Format.png)
 
 ### Output format
 
