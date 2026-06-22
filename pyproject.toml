@@ -9,13 +9,19 @@ description = "Cell Death Area Data Collection"
 readme = "README.md"
 license = { file = "LICENSE.txt" }
 authors = [
-  { name = "Joshua Williams", email = "jowillia@nbi.ac.uk" }
+  { name = "Joshua Williams", email = "joshuandwilliams@outlook.com" }
 ]
 urls = { "Homepage" = "https://github.com/joshuandwilliams/CDAScorer" }
 requires-python = ">=3.9"
 dependencies = [
   "pandas",
   "Pillow",
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest",
+  "pytest-cov",
 ]
 
 [project.scripts]
@@ -28,3 +34,6 @@ include = ["cdascorer", "cdascorer.*"]
 
 [tool.setuptools.package-data]
 "cdascorer" = ["data/*.jpg"]
+
+[tool.coverage.run]
+source = ["cdascorer"]
