@@ -1,5 +1,14 @@
 # CDAScorer
 
+<!-- badges: start -->
+[![PyPI version](https://img.shields.io/pypi/v/cdascorer)](https://pypi.org/project/cdascorer/)
+[![CI](https://github.com/joshuandwilliams/CDAScorer/actions/workflows/ci.yml/badge.svg)](https://github.com/joshuandwilliams/CDAScorer/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/joshuandwilliams/CDAScorer/graph/badge.svg)](https://codecov.io/gh/joshuandwilliams/CDAScorer)
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+![Python](https://img.shields.io/badge/python-%3E=3.9-1e90ff?logo=python)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.txt)
+<!-- badges: end -->
+
 A Python/Tkinter tool for annotating cell death areas (CDAs) from agroinfiltration leaf images. Designed for plant science researchers who need to systematically score lesion severity across large image datasets.
 
 ## What it does
