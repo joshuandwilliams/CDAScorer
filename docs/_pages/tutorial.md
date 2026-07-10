@@ -22,7 +22,7 @@ $ conda activate <my-env>
 (my-env) $ pip install git+https://github.com/joshuandwilliams/CDAScorer
 ```
 
-The same commands work on Windows, Mac, and Linux — there is no separate Windows version. Requires Python 3.9 or later.
+The same commands work on Windows, Mac, and Linux — there is no separate Windows version. Requires Python 3.11 or later.
 
 ### Quickstart:
 

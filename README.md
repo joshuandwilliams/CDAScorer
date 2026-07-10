@@ -5,7 +5,7 @@
 [![CI](https://github.com/joshuandwilliams/CDAScorer/actions/workflows/ci.yml/badge.svg)](https://github.com/joshuandwilliams/CDAScorer/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/joshuandwilliams/CDAScorer/graph/badge.svg)](https://codecov.io/gh/joshuandwilliams/CDAScorer)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-![Python](https://img.shields.io/badge/python-%3E=3.9-1e90ff?logo=python)
+![Python](https://img.shields.io/badge/python-%3E=3.11-1e90ff?logo=python)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.txt)
 <!-- badges: end -->
 
@@ -35,7 +35,7 @@ cd CDAScorer
 pip install .
 ```
 
-Requires Python 3.9 or later. Depends on `pandas` and `Pillow`.
+Requires Python 3.11 or later. Depends on `pandas` and `Pillow`.
 
 ## Scoring new images
 
