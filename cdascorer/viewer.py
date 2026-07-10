@@ -7,13 +7,13 @@ Usage:
     cdascorer-view --data scores.csv --image path/to/image.tif
 """
 
+import argparse
 import os
 import sys
-import argparse
+import tkinter as tk
 
 import pandas as pd
-import tkinter as tk
-from PIL import ImageTk, Image
+from PIL import Image, ImageTk
 
 
 def _find_image_path(data: pd.DataFrame, image_name: str) -> str:
@@ -71,7 +71,8 @@ def _view(data: pd.DataFrame, image_path: str) -> None:
             y2 = row["y2"] * scale
             canvas.create_rectangle(x1, y1, x2, y2, outline="blue", width=3)
             canvas.create_text(
-                x1 + 5, y1 + 7,
+                x1 + 5,
+                y1 + 7,
                 text=str(int(row["score"])),
                 fill="blue",
                 anchor=tk.NW,
@@ -88,13 +89,15 @@ def main() -> None:
         description="View CDAScorer annotations overlaid on an image.",
     )
     parser.add_argument(
-        "-d", "--data",
+        "-d",
+        "--data",
         help="CDAScorer CSV file containing scores.",
         type=str,
         required=True,
     )
     parser.add_argument(
-        "-i", "--image",
+        "-i",
+        "--image",
         help="Path or filename of the image to view.",
         type=str,
         required=True,

@@ -10,20 +10,29 @@ Usage:
     cdascorer-rescore --data combined_data.csv --scorer JoshW --source_folder ./images/
 """
 
+import argparse
 import os
 import sys
-import argparse
+import tkinter as tk
 from datetime import datetime
 
 import pandas as pd
-import tkinter as tk
 
 from cdascorer.rescore_gui import RescoreWindow
 
 OUTPUT_COLUMNS = [
-    "scorer", "basename", "row", "col", "pos",
-    "x1", "x2", "y1", "y2",
-    "old_score", "median_score", "new_score",
+    "scorer",
+    "basename",
+    "row",
+    "col",
+    "pos",
+    "x1",
+    "x2",
+    "y1",
+    "y2",
+    "old_score",
+    "median_score",
+    "new_score",
 ]
 
 
@@ -48,19 +57,21 @@ def _find_scorer_cdas(data: pd.DataFrame, scorer: str) -> pd.DataFrame:
         for _, row in subset.iterrows():
             # Get the Centre_Coords bounding box
             cc = int(row["Centre_Coords"])
-            rows.append({
-                "scorer": scorer,
-                "basename": row["Basename"],
-                "row": int(row["Row"]),
-                "col": int(row["Col"]),
-                "pos": int(row["Pos"]),
-                "x1": row[f"X1_{cc}"],
-                "x2": row[f"X2_{cc}"],
-                "y1": row[f"Y1_{cc}"],
-                "y2": row[f"Y2_{cc}"],
-                "old_score": row[score_col],
-                "median_score": row["Median_Score"],
-            })
+            rows.append(
+                {
+                    "scorer": scorer,
+                    "basename": row["Basename"],
+                    "row": int(row["Row"]),
+                    "col": int(row["Col"]),
+                    "pos": int(row["Pos"]),
+                    "x1": row[f"X1_{cc}"],
+                    "x2": row[f"X2_{cc}"],
+                    "y1": row[f"Y1_{cc}"],
+                    "y2": row[f"Y2_{cc}"],
+                    "old_score": row[score_col],
+                    "median_score": row["Median_Score"],
+                }
+            )
 
     return pd.DataFrame(rows)
 
@@ -87,31 +98,36 @@ def main() -> None:
         description="Rescore 100 previously scored CDAs for intra-scorer consistency.",
     )
     parser.add_argument(
-        "-d", "--data",
+        "-d",
+        "--data",
         help="Combined CDA data CSV (e.g. combined_CDA_data_median.csv).",
         type=str,
         required=True,
     )
     parser.add_argument(
-        "-s", "--scorer",
+        "-s",
+        "--scorer",
         help="Name of the scorer (must match a name in the Scorer columns).",
         type=str,
         required=True,
     )
     parser.add_argument(
-        "-f", "--source_folder",
+        "-f",
+        "--source_folder",
         help="Folder containing the source images.",
         type=str,
         required=True,
     )
     parser.add_argument(
-        "-o", "--output",
+        "-o",
+        "--output",
         help="Output CSV file for rescore results (default: rescore_<scorer>.csv).",
         type=str,
         default=None,
     )
     parser.add_argument(
-        "-n", "--num_samples",
+        "-n",
+        "--num_samples",
         help="Number of CDAs to rescore (default: 100).",
         type=int,
         default=100,
@@ -151,7 +167,9 @@ def main() -> None:
     else:
         sample = scorer_cdas.sample(n=args.num_samples, random_state=args.seed)
 
-    print(f"Selected {len(sample)} CDAs for {args.scorer} to rescore (seed={args.seed}).")
+    print(
+        f"Selected {len(sample)} CDAs for {args.scorer} to rescore (seed={args.seed})."
+    )
 
     # Resolve image paths and build record list
     cda_records = []
@@ -192,7 +210,9 @@ def main() -> None:
 
     if os.path.exists(output_file):
         now = datetime.now()
-        backup_name = f"backup_{now.strftime('%d_%m_%Y_%H_%M_')}{os.path.basename(output_file)}"
+        backup_name = (
+            f"backup_{now.strftime('%d_%m_%Y_%H_%M_')}{os.path.basename(output_file)}"
+        )
         backup_path = os.path.join(os.path.dirname(output_file) or ".", backup_name)
         os.rename(output_file, backup_path)
         print(f"Existing file backed up to: {backup_path}")
