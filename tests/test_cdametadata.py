@@ -4,12 +4,24 @@ test_cdametadata.py
 Tests for the CDAMetadata class, focusing on the _update cascade
 (pos → col → row → image → end_of_data) and the _make_pandas output.
 """
-import pytest
+
 import pandas as pd
 
 from cdascorer.cdametadata import CDAMetadata
 
-COLUMNS = ["img", "maxrow", "maxcol", "row", "col", "pos", "score", "x1", "x2", "y1", "y2"]
+COLUMNS = [
+    "img",
+    "maxrow",
+    "maxcol",
+    "row",
+    "col",
+    "pos",
+    "score",
+    "x1",
+    "x2",
+    "y1",
+    "y2",
+]
 
 
 def _empty_df():
@@ -40,11 +52,23 @@ class TestInit:
 
     def test_resumes_from_last_row_of_dataframe(self):
         df = _empty_df()
-        row = pd.DataFrame([{
-            "img": "img_b.tif", "maxrow": 3, "maxcol": 2,
-            "row": 2, "col": 1, "pos": 4, "score": 3,
-            "x1": 10, "x2": 50, "y1": 10, "y2": 50,
-        }])
+        row = pd.DataFrame(
+            [
+                {
+                    "img": "img_b.tif",
+                    "maxrow": 3,
+                    "maxcol": 2,
+                    "row": 2,
+                    "col": 1,
+                    "pos": 4,
+                    "score": 3,
+                    "x1": 10,
+                    "x2": 50,
+                    "y1": 10,
+                    "y2": 50,
+                }
+            ]
+        )
         df = pd.concat([df, row], ignore_index=True)
 
         m = CDAMetadata(["img_a.tif", "img_b.tif"], df)
@@ -196,3 +220,21 @@ class TestMakePandas:
         result = m._make_pandas()
         assert isinstance(result, pd.DataFrame)
         assert len(result) == 1
+
+
+class TestStr:
+    """Tests for CDAMetadata.__str__."""
+
+    def test_str_includes_all_fields(self):
+        m = _make_metadata(["img.tif"], maxrow=2, maxcol=3)
+        m.pos = 4
+        m.score = 5
+        m.x1, m.x2, m.y1, m.y2 = 10, 50, 20, 60
+        text = str(m)
+        assert "Img: img.tif" in text
+        assert "Maxrow: 2" in text
+        assert "Maxcol: 3" in text
+        assert "Pos: 4" in text
+        assert "Score: 5" in text
+        assert "x1: 10" in text
+        assert "y2: 60" in text

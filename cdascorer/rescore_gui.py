@@ -6,13 +6,13 @@ A simplified Tkinter GUI for rescoring previously annotated CDAs.
 Shows the full image with the bounding box pre-drawn and only asks
 the user to enter a score (0-6). No bounding box drawing is needed.
 """
-import math
+
 import io
-
+import math
 import tkinter as tk
-from PIL import ImageTk, Image, ImageDraw
-
 from importlib.resources import files
+
+from PIL import Image, ImageDraw, ImageTk
 
 
 def _scale_val(val: int, scale: float) -> int:
@@ -50,14 +50,16 @@ class RescoreWindow:
         self.allow_scorekeypress = False
 
         # Load scoring key from package data
-        key_bytes = files('cdascorer.data').joinpath("lesion_score_key.jpg").read_bytes()
+        key_bytes = (
+            files("cdascorer.data").joinpath("lesion_score_key.jpg").read_bytes()
+        )
         self.key = Image.open(io.BytesIO(key_bytes), formats=["JPEG"])
 
         # Build the persistent frame structure
         self.right_frame = tk.Frame(self.root, bd=2, relief=tk.GROOVE)
         self.right_frame.pack(side=tk.RIGHT, anchor=tk.W, expand=True)
 
-        self.scoring_label = tk.Label(self.right_frame, image='', highlightthickness=0)
+        self.scoring_label = tk.Label(self.right_frame, image="", highlightthickness=0)
         self.scoring_label.pack(side=tk.BOTTOM)
 
         self.canvas = None  # Will be created per-CDA
@@ -66,7 +68,8 @@ class RescoreWindow:
             self.root,
             width=_scale_val(500, self.scale),
             height=window_height,
-            bd=2, relief=tk.GROOVE,
+            bd=2,
+            relief=tk.GROOVE,
         )
         self.left_frame.pack_propagate(0)
         self.left_frame.pack(side=tk.RIGHT, anchor=tk.E, expand=True)
@@ -96,10 +99,12 @@ class RescoreWindow:
         else:
             self.img_scale = (self.window_height / img.height) * self.window_cover
 
-        resized = img.resize((
-            round(img.width * self.img_scale),
-            round(img.height * self.img_scale),
-        ))
+        resized = img.resize(
+            (
+                round(img.width * self.img_scale),
+                round(img.height * self.img_scale),
+            )
+        )
 
         # Draw the bounding box AFTER scaling so the line thickness is in screen pixels
         draw = ImageDraw.Draw(resized)
@@ -117,10 +122,12 @@ class RescoreWindow:
 
         # Scale the scoring key to match image width
         key_scale = resized.width / self.key.width
-        resized_key = self.key.resize((
-            round(self.key.width * key_scale),
-            round(self.key.height * key_scale),
-        ))
+        resized_key = self.key.resize(
+            (
+                round(self.key.width * key_scale),
+                round(self.key.height * key_scale),
+            )
+        )
         self.resized_key_tk = ImageTk.PhotoImage(resized_key)
 
     # ──────────────────────────────────────────────
@@ -128,10 +135,18 @@ class RescoreWindow:
     # ──────────────────────────────────────────────
 
     _LEFT_WIDGETS = [
-        "info_label", "progress_label", "scoring_info_label",
-        "button_0", "button_1", "button_2", "button_3",
-        "button_4", "button_5", "button_6",
-        "button_skip", "button_exit",
+        "info_label",
+        "progress_label",
+        "scoring_info_label",
+        "button_0",
+        "button_1",
+        "button_2",
+        "button_3",
+        "button_4",
+        "button_5",
+        "button_6",
+        "button_skip",
+        "button_exit",
     ]
 
     def _clear_widgets(self):
@@ -170,7 +185,8 @@ class RescoreWindow:
             self.right_frame,
             width=self.resized_img_tk.width(),
             height=self.resized_img_tk.height(),
-            highlightthickness=0, bg="white",
+            highlightthickness=0,
+            bg="white",
         )
         self.canvas.create_image(0, 0, anchor=tk.NW, image=self.resized_img_tk)
         self.canvas.pack(side=tk.TOP)
@@ -186,13 +202,15 @@ class RescoreWindow:
         font_large = ("Arial", _scale_val(40, self.scale))
 
         self.progress_label = tk.Label(
-            self.left_frame, font=font,
+            self.left_frame,
+            font=font,
             text=f"CDA {self.current_index + 1} / {len(self.cda_records)}",
         )
         self.progress_label.place(relx=0.5, rely=0.06, anchor=tk.N)
 
         self.info_label = tk.Label(
-            self.left_frame, font=font,
+            self.left_frame,
+            font=font,
             text=(
                 f"\nImage: {record['basename']}"
                 f"\nRow: {record['row']}"
@@ -206,7 +224,8 @@ class RescoreWindow:
         self.info_label.place(relx=0.5, rely=0.12, anchor=tk.N, relwidth=1.0)
 
         self.scoring_info_label = tk.Label(
-            self.left_frame, font=font,
+            self.left_frame,
+            font=font,
             justify=tk.CENTER,
             text="\nScore:\n",
         )
@@ -215,13 +234,18 @@ class RescoreWindow:
         # Score buttons
         score_positions = [
             (0, 0.5, 0.57),
-            (1, 0.35, 0.67), (2, 0.65, 0.67),
-            (3, 0.35, 0.77), (4, 0.65, 0.77),
-            (5, 0.35, 0.87), (6, 0.65, 0.87),
+            (1, 0.35, 0.67),
+            (2, 0.65, 0.67),
+            (3, 0.35, 0.77),
+            (4, 0.65, 0.77),
+            (5, 0.35, 0.87),
+            (6, 0.65, 0.87),
         ]
         for score_val, rx, ry in score_positions:
             btn = tk.Button(
-                self.left_frame, text=str(score_val), font=font_large,
+                self.left_frame,
+                text=str(score_val),
+                font=font_large,
                 command=lambda s=score_val: self._enter_score(s),
             )
             btn.place(relx=rx, rely=ry, anchor=tk.S)
@@ -229,15 +253,19 @@ class RescoreWindow:
 
         # Skip button
         self.button_skip = tk.Button(
-            self.left_frame, text="Skip",
-            command=self._skip, font=font,
+            self.left_frame,
+            text="Skip",
+            command=self._skip,
+            font=font,
         )
         self.button_skip.place(relx=0, rely=1, anchor=tk.SW)
 
         # Save and exit button
         self.button_exit = tk.Button(
-            self.left_frame, text="Save and Exit",
-            command=self._save_and_quit, font=font,
+            self.left_frame,
+            text="Save and Exit",
+            command=self._save_and_quit,
+            font=font,
         )
         self.button_exit.place(relx=0, rely=0, anchor=tk.NW)
 
@@ -251,20 +279,22 @@ class RescoreWindow:
             return
 
         record = self.cda_records[self.current_index]
-        self.results.append({
-            "scorer": record["scorer"],
-            "basename": record["basename"],
-            "row": record["row"],
-            "col": record["col"],
-            "pos": record["pos"],
-            "x1": record["x1"],
-            "x2": record["x2"],
-            "y1": record["y1"],
-            "y2": record["y2"],
-            "old_score": record["old_score"],
-            "median_score": record["median_score"],
-            "new_score": score,
-        })
+        self.results.append(
+            {
+                "scorer": record["scorer"],
+                "basename": record["basename"],
+                "row": record["row"],
+                "col": record["col"],
+                "pos": record["pos"],
+                "x1": record["x1"],
+                "x2": record["x2"],
+                "y1": record["y1"],
+                "y2": record["y2"],
+                "old_score": record["old_score"],
+                "median_score": record["median_score"],
+                "new_score": score,
+            }
+        )
 
         self.current_index += 1
         self._show_current_cda()

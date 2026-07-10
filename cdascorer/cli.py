@@ -13,19 +13,31 @@ Usage examples:
 
 """
 
+import argparse
 import os
 import sys
-import argparse
-from pathlib import Path
+import tkinter as tk
 from datetime import datetime
+from pathlib import Path
 
 import pandas as pd
-import tkinter as tk
 
 from cdascorer.cdametadata import CDAMetadata
 from cdascorer.cdascorer_gui import MainWindow
 
-COLUMNS = ["img", "maxrow", "maxcol", "row", "col", "pos", "score", "x1", "x2", "y1", "y2"]
+COLUMNS = [
+    "img",
+    "maxrow",
+    "maxcol",
+    "row",
+    "col",
+    "pos",
+    "score",
+    "x1",
+    "x2",
+    "y1",
+    "y2",
+]
 
 
 def _save_and_quit(df: pd.DataFrame, file: str) -> None:
@@ -35,11 +47,32 @@ def _save_and_quit(df: pd.DataFrame, file: str) -> None:
     print(f"Saving and Quitting. Your data went to the file: {file}")
     if os.path.exists(file):
         now = datetime.now()
-        backup_name = f"backup_{now.strftime('%d_%m_%Y_%H_%M_')}{os.path.basename(file)}"
+        backup_name = (
+            f"backup_{now.strftime('%d_%m_%Y_%H_%M_')}{os.path.basename(file)}"
+        )
         backup_path = os.path.join(os.path.dirname(file), backup_name)
         os.rename(file, backup_path)
     df.to_csv(file, index=False)
     sys.exit()
+
+
+IMAGE_SUFFIXES = (".tif", ".tiff", ".jpg", ".jpeg", ".png")
+
+
+def _discover_images(source_folder: str) -> list:
+    """
+    Return the resolved paths of all image files in ``source_folder``.
+
+    Hidden files (names starting with ``.``) and non-image files are skipped.
+    Results are sorted for deterministic ordering.
+    """
+    return sorted(
+        str(f.resolve())
+        for f in Path(source_folder).iterdir()
+        if f.is_file()
+        and not f.name.startswith(".")
+        and f.suffix.lower() in IMAGE_SUFFIXES
+    )
 
 
 def _cdascorer(source_folder: str, df: pd.DataFrame, test: bool, file: str) -> None:
@@ -49,13 +82,7 @@ def _cdascorer(source_folder: str, df: pd.DataFrame, test: bool, file: str) -> N
     if test:
         image_files = ["test_cda_img.jpg"]
     else:
-        image_files = [
-            str(f.resolve())
-            for f in Path(source_folder).iterdir()
-            if f.is_file()
-            and not f.name.startswith(".")
-            and f.suffix.lower() in (".tif", ".tiff", ".jpg", ".jpeg", ".png")
-        ]
+        image_files = _discover_images(source_folder)
 
     if not image_files:
         sys.exit(f"ERROR: no image files found in {source_folder}")
@@ -82,19 +109,22 @@ def main() -> None:
         description="Run the CDAScorer GUI.",
     )
     parser.add_argument(
-        "-s", "--source_folder",
+        "-s",
+        "--source_folder",
         help="Folder containing images to analyse.",
         type=str,
         default=".",
     )
     parser.add_argument(
-        "-f", "--file",
+        "-f",
+        "--file",
         help="CSV file to update. Created if it does not exist.",
         type=str,
         default="cdata.csv",
     )
     parser.add_argument(
-        "-t", "--test",
+        "-t",
+        "--test",
         help="Use a built-in test image.",
         action="store_true",
     )

@@ -3,14 +3,14 @@ cdascorer_gui.py
 
 Tkinter GUI for the CDAScorer annotation workflow.
 """
-import math
-import pandas as pd
+
 import io
-
+import math
 import tkinter as tk
-from PIL import ImageTk, Image
-
 from importlib.resources import files
+
+import pandas as pd
+from PIL import Image, ImageTk
 
 from cdascorer.cdametadata import CDAMetadata
 
@@ -49,17 +49,34 @@ class MainWindow:
 
     # Names of widgets created in the grid state
     _GRID_WIDGETS = [
-        "img_label", "scoring_info", "row_info", "row_input",
-        "col_info", "col_input", "count_info", "count_input",
-        "input_submit", "button_exit",
+        "img_label",
+        "scoring_info",
+        "row_info",
+        "row_input",
+        "col_info",
+        "col_input",
+        "count_info",
+        "count_input",
+        "input_submit",
+        "button_exit",
     ]
 
     # Names of widgets created in the scoring state
     _SCORING_WIDGETS = [
-        "coords_info_label", "scoring_info_label", "canvas",
-        "button_prev", "button_next", "button_leaf", "button_exit",
-        "button_0", "button_1", "button_2", "button_3",
-        "button_4", "button_5", "button_6",
+        "coords_info_label",
+        "scoring_info_label",
+        "canvas",
+        "button_prev",
+        "button_next",
+        "button_leaf",
+        "button_exit",
+        "button_0",
+        "button_1",
+        "button_2",
+        "button_3",
+        "button_4",
+        "button_5",
+        "button_6",
     ]
 
     def __init__(self, root, cdata, metadata, window_width: int, window_height: int):
@@ -95,7 +112,7 @@ class MainWindow:
         # Loading current image and lesion score key into memory
         self.img_path = self.metadata.img
         if self.img_path == "test_cda_img.jpg":
-            raw_bytes = files('cdascorer.data').joinpath(self.img_path).read_bytes()
+            raw_bytes = files("cdascorer.data").joinpath(self.img_path).read_bytes()
             self.img = Image.open(io.BytesIO(raw_bytes))
         else:
             self.img = Image.open(self.img_path)
@@ -105,7 +122,9 @@ class MainWindow:
         self._scale_image()
 
         # Load in the scoring key from the package files and scale it to the width of the image
-        key_bytes = files('cdascorer.data').joinpath("lesion_score_key.jpg").read_bytes()
+        key_bytes = (
+            files("cdascorer.data").joinpath("lesion_score_key.jpg").read_bytes()
+        )
         self.key = Image.open(io.BytesIO(key_bytes), formats=["JPEG"])
         self.key_tk = ImageTk.PhotoImage(self.key)
         self._scale_key()
@@ -113,13 +132,15 @@ class MainWindow:
 
         # Initialise right panel to contain image and key
         self.right_frame = tk.Frame(self.root, bd=2, relief=tk.GROOVE)
-        self.scoring_label = tk.Label(self.right_frame, image='', highlightthickness=0)
+        self.scoring_label = tk.Label(self.right_frame, image="", highlightthickness=0)
         self.scoring_label.pack(side=tk.BOTTOM)
         self.image_height = self.resized_img_tk.height()
         self.image_width = self.resized_img_tk.width()
         self.temp_img_label = tk.Label(
-            self.right_frame, image=self.temp_img,
-            height=self.image_height, width=self.image_width,
+            self.right_frame,
+            image=self.temp_img,
+            height=self.image_height,
+            width=self.image_width,
         )
         self.temp_img_label.pack(side=tk.BOTTOM)
         self.right_frame.pack(side=tk.RIGHT, anchor=tk.W, expand=True)
@@ -130,12 +151,15 @@ class MainWindow:
             self.root,
             width=_scale_val(500, self.scale),
             height=self.right_frame.winfo_height(),
-            bd=2, relief=tk.GROOVE,
+            bd=2,
+            relief=tk.GROOVE,
         )
         self.left_frame.pack_propagate(0)
         self.left_width = self.left_frame.winfo_width()
         self.left_height = self.left_frame.winfo_height()
-        self.left_init = tk.Label(self.left_frame, text="", width=self.left_width, height=self.left_height)
+        self.left_init = tk.Label(
+            self.left_frame, text="", width=self.left_width, height=self.left_height
+        )
         self.left_init.pack()
         self.left_frame.pack(side=tk.RIGHT, anchor=tk.E, expand=True)
 
@@ -162,19 +186,23 @@ class MainWindow:
             self.img_scale = (self.window_width / self.img.width) * self.window_cover
         else:
             self.img_scale = (self.window_height / self.img.height) * self.window_cover
-        self.resized_img = self.img.resize((
-            round(self.img.width * self.img_scale),
-            round(self.img.height * self.img_scale),
-        ))
+        self.resized_img = self.img.resize(
+            (
+                round(self.img.width * self.img_scale),
+                round(self.img.height * self.img_scale),
+            )
+        )
         self.resized_img_tk = ImageTk.PhotoImage(self.resized_img)
 
     def _scale_key(self):
         """Scale the scoring key image to match the width of the current image."""
         self.key_scale = self.resized_img.width / self.key.width
-        self.resized_key = self.key.resize((
-            round(self.key.width * self.key_scale),
-            round(self.key.height * self.key_scale),
-        ))
+        self.resized_key = self.key.resize(
+            (
+                round(self.key.width * self.key_scale),
+                round(self.key.height * self.key_scale),
+            )
+        )
         self.resized_key_tk = ImageTk.PhotoImage(self.resized_key)
 
     def _load_new_image_if_needed(self):
@@ -229,7 +257,7 @@ class MainWindow:
         self.img_label.place(x=0, y=0, anchor=tk.NW, relwidth=1.0, relheight=1.0)
         self.root.update()
         # Hide scoring key in grid state
-        self.scoring_label.config(image='')
+        self.scoring_label.config(image="")
 
         # Left frame
         self.root.update()
@@ -238,20 +266,27 @@ class MainWindow:
         font = ("Arial", _scale_val(30, self.scale))
 
         self.scoring_info = tk.Label(
-            self.left_frame, width=self.left_width, font=font,
+            self.left_frame,
+            width=self.left_width,
+            font=font,
             text="\nPlease enter the number\nof rows and columns in\nthis image.\n",
         )
         self.scoring_info.place(relx=0.5, rely=0.05, anchor=tk.N, relwidth=1.0)
 
         self.button_exit = tk.Button(
-            self.left_frame, text="Save and Exit",
-            command=self._save_and_quit, font=font,
+            self.left_frame,
+            text="Save and Exit",
+            command=self._save_and_quit,
+            font=font,
         )
         self.button_exit.place(relx=0, rely=0, anchor=tk.NW)
 
         self.row_info = tk.Label(
-            self.left_frame, text="\nNumber of rows:\n",
-            justify=tk.CENTER, font=font, height=1,
+            self.left_frame,
+            text="\nNumber of rows:\n",
+            justify=tk.CENTER,
+            font=font,
+            height=1,
         )
         self.row_info.place(relx=0.5, rely=0.3, anchor=tk.S)
 
@@ -259,8 +294,11 @@ class MainWindow:
         self.row_input.place(relx=0.5, rely=0.4, anchor=tk.S, relwidth=0.5)
 
         self.col_info = tk.Label(
-            self.left_frame, text="\nNumber of columns:\n",
-            justify=tk.CENTER, font=font, height=1,
+            self.left_frame,
+            text="\nNumber of columns:\n",
+            justify=tk.CENTER,
+            font=font,
+            height=1,
         )
         self.col_info.place(relx=0.5, rely=0.5, anchor=tk.S)
 
@@ -268,8 +306,11 @@ class MainWindow:
         self.col_input.place(relx=0.5, rely=0.6, anchor=tk.S, relwidth=0.5)
 
         self.count_info = tk.Label(
-            self.left_frame, text="\nNumber of CDAs per leaf:\n",
-            justify=tk.CENTER, font=font, height=1,
+            self.left_frame,
+            text="\nNumber of CDAs per leaf:\n",
+            justify=tk.CENTER,
+            font=font,
+            height=1,
         )
         self.count_info.place(relx=0.5, rely=0.7, anchor=tk.S)
 
@@ -277,8 +318,10 @@ class MainWindow:
         self.count_input.place(relx=0.5, rely=0.8, anchor=tk.S)
 
         self.input_submit = tk.Button(
-            self.left_frame, text="Submit",
-            command=self._get_entry_values, font=font,
+            self.left_frame,
+            text="Submit",
+            command=self._get_entry_values,
+            font=font,
         )
         self.input_submit.place(relx=0.5, rely=0.9, anchor=tk.S)
 
@@ -295,7 +338,11 @@ class MainWindow:
         maxcol_str = self.col_input.get()
         num_spots_str = self.count_input.get()
 
-        if not maxrow_str.isdigit() or not maxcol_str.isdigit() or not num_spots_str.isdigit():
+        if (
+            not maxrow_str.isdigit()
+            or not maxcol_str.isdigit()
+            or not num_spots_str.isdigit()
+        ):
             print("Please only enter integers into the entry boxes")
             self._scoring_to_grid()
             return
@@ -334,7 +381,8 @@ class MainWindow:
             self.right_frame,
             width=self.resized_img_tk.width(),
             height=self.resized_img_tk.height(),
-            highlightthickness=0, bg="white",
+            highlightthickness=0,
+            bg="white",
         )
         self.canvas.create_image(0, 0, anchor=tk.NW, image=self.resized_img_tk)
         self.canvas.place(x=2, y=2, anchor=tk.NW)
@@ -353,8 +401,10 @@ class MainWindow:
         font_large = ("Arial", _scale_val(40, self.scale))
 
         self.coords_info_label = tk.Label(
-            self.left_frame, highlightthickness=0,
-            width=self.left_width, font=font,
+            self.left_frame,
+            highlightthickness=0,
+            width=self.left_width,
+            font=font,
             text=(
                 f"\nSTEP 1:\nLeft-click and drag\na box around the\nfollowing CDA:"
                 f"\n\nRow: {self.metadata.row}"
@@ -365,32 +415,42 @@ class MainWindow:
         self.coords_info_label.place(relx=0.5, rely=0.05, anchor=tk.N, relwidth=1.0)
 
         self.button_prev = tk.Button(
-            self.left_frame, text="Prev",
-            command=self._prev_CDA, font=font,
+            self.left_frame,
+            text="Prev",
+            command=self._prev_CDA,
+            font=font,
         )
         self.button_prev.place(relx=1, rely=1, anchor=tk.SE)
 
         self.button_next = tk.Button(
-            self.left_frame, text="Next",
-            command=lambda: self._skip_spots(num_skip=1), font=font,
+            self.left_frame,
+            text="Next",
+            command=lambda: self._skip_spots(num_skip=1),
+            font=font,
         )
         self.button_next.place(relx=0, rely=1, anchor=tk.SW)
 
         self.button_leaf = tk.Button(
-            self.left_frame, text="Skip Leaf",
-            command=lambda: self._skip_spots(num_skip=self.num_spots), font=font,
+            self.left_frame,
+            text="Skip Leaf",
+            command=lambda: self._skip_spots(num_skip=self.num_spots),
+            font=font,
         )
         self.button_leaf.place(relx=0.5, rely=1, anchor=tk.S)
 
         self.button_exit = tk.Button(
-            self.left_frame, text="Save and Exit",
-            command=self._save_and_quit, font=font,
+            self.left_frame,
+            text="Save and Exit",
+            command=self._save_and_quit,
+            font=font,
         )
         self.button_exit.place(relx=0, rely=0, anchor=tk.NW)
 
         self.scoring_info_label = tk.Label(
-            self.left_frame, width=self.left_width,
-            justify=tk.CENTER, font=font,
+            self.left_frame,
+            width=self.left_width,
+            justify=tk.CENTER,
+            font=font,
             text="\nSTEP 2:\nEnter a score below.\n",
         )
         self.scoring_info_label.place(relx=0.5, rely=0.55, anchor=tk.S, relwidth=1.0)
@@ -398,13 +458,18 @@ class MainWindow:
         # Score buttons
         score_positions = [
             (0, 0.5, 0.60),
-            (1, 0.35, 0.70), (2, 0.65, 0.70),
-            (3, 0.35, 0.80), (4, 0.65, 0.80),
-            (5, 0.35, 0.90), (6, 0.65, 0.90),
+            (1, 0.35, 0.70),
+            (2, 0.65, 0.70),
+            (3, 0.35, 0.80),
+            (4, 0.65, 0.80),
+            (5, 0.35, 0.90),
+            (6, 0.65, 0.90),
         ]
         for score_val, rx, ry in score_positions:
             btn = tk.Button(
-                self.left_frame, text=str(score_val), font=font_large,
+                self.left_frame,
+                text=str(score_val),
+                font=font_large,
                 command=lambda s=score_val: self._enter_score(s),
             )
             btn.place(relx=rx, rely=ry, anchor=tk.S)
@@ -424,19 +489,35 @@ class MainWindow:
             self.canvas.delete("rectangle")
         self.rect_end_x, self.rect_end_y = event.x, event.y
         self.canvas.create_rectangle(
-            self.rect_start_x, self.rect_start_y,
-            self.rect_end_x, self.rect_end_y,
-            outline="blue", width=2, tags="rectangle",
+            self.rect_start_x,
+            self.rect_start_y,
+            self.rect_end_x,
+            self.rect_end_y,
+            outline="blue",
+            width=2,
+            tags="rectangle",
         )
 
     def _on_button_release(self, event):
         """When the mouse is released, scale coordinates and make the selection square."""
         if self.rect_end_x is not None and self.rect_end_y is not None:
             self.coords = [
-                min(_round_to_even(self.rect_start_x / self.img_scale), _round_to_even(self.rect_end_x / self.img_scale)),
-                max(_round_to_even(self.rect_start_x / self.img_scale), _round_to_even(self.rect_end_x / self.img_scale)),
-                min(_round_to_even(self.rect_start_y / self.img_scale), _round_to_even(self.rect_end_y / self.img_scale)),
-                max(_round_to_even(self.rect_start_y / self.img_scale), _round_to_even(self.rect_end_y / self.img_scale)),
+                min(
+                    _round_to_even(self.rect_start_x / self.img_scale),
+                    _round_to_even(self.rect_end_x / self.img_scale),
+                ),
+                max(
+                    _round_to_even(self.rect_start_x / self.img_scale),
+                    _round_to_even(self.rect_end_x / self.img_scale),
+                ),
+                min(
+                    _round_to_even(self.rect_start_y / self.img_scale),
+                    _round_to_even(self.rect_end_y / self.img_scale),
+                ),
+                max(
+                    _round_to_even(self.rect_start_y / self.img_scale),
+                    _round_to_even(self.rect_end_y / self.img_scale),
+                ),
             ]
             self._make_square_coords()
             self.metadata.x1 = int(self.coords[0])
@@ -568,7 +649,9 @@ class MainWindow:
         """
         if self.metadata.end_of_data:
             self._save_and_quit()
-        elif self.metadata.row == 1 and self.metadata.col == 1 and self.metadata.pos == 1:
+        elif (
+            self.metadata.row == 1 and self.metadata.col == 1 and self.metadata.pos == 1
+        ):
             self._scoring_to_grid()
         else:
             self._grid_to_scoring()

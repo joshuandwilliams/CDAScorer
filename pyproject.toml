@@ -1,28 +1,59 @@
 [build-system]
-requires = ["setuptools>=64", "wheel"]
+requires = ["setuptools>=77.0.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "cdascorer"
-version = "0.1.0"
+version = "0.2.0"
 description = "Cell Death Area Data Collection"
 readme = "README.md"
-license = { file = "LICENSE.txt" }
+license = "MIT"
+license-files = ["LICENSE.txt"]
 authors = [
-  { name = "Joshua Williams", email = "joshuandwilliams@outlook.com" }
+  { name = "Joshua Williams", email = "joshuandwilliams@outlook.com" },
 ]
-urls = { "Homepage" = "https://github.com/joshuandwilliams/CDAScorer" }
-requires-python = ">=3.9"
+requires-python = ">=3.11"
+keywords = [
+  "cell death",
+  "agroinfiltration",
+  "plant science",
+  "image annotation",
+  "lesion scoring",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Scientific/Engineering :: Bio-Informatics",
+  "Topic :: Scientific/Engineering :: Visualization",
+]
 dependencies = [
-  "pandas",
-  "Pillow",
+  "pandas>=2.2",
+  "Pillow>=10.0",
 ]
 
 [project.optional-dependencies]
 test = [
-  "pytest",
-  "pytest-cov",
+  "pytest>=8.0",
+  "pytest-cov>=5.0",
 ]
+dev = [
+  "cdascorer[test]",
+  "pre-commit>=4.0",
+  "ruff>=0.6",
+  "black>=24.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/joshuandwilliams/CDAScorer"
+Repository = "https://github.com/joshuandwilliams/CDAScorer"
+Issues = "https://github.com/joshuandwilliams/CDAScorer/issues"
+Documentation = "https://joshuandwilliams.github.io/CDAScorer/"
 
 [project.scripts]
 cdascorer = "cdascorer.cli:main"
@@ -38,3 +69,17 @@ include = ["cdascorer", "cdascorer.*"]
 [tool.coverage.run]
 source = ["cdascorer"]
 relative_files = true
+
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.ruff.lint]
+# pyflakes (F), pycodestyle (E/W), isort (I), bugbear (B).
+# Line length is owned by black, so E501 is disabled here.
+select = ["E", "F", "W", "I", "B"]
+ignore = ["E501"]

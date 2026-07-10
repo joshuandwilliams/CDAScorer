@@ -1,0 +1,11 @@
+name: cdascorer
+channels:
+  - conda-forge
+dependencies:
+  - python>=3.11
+  - pandas>=2.2
+  - pillow>=10.0
+  - tk
+  - pip
+  - pip:
+      - "-e .[dev]"
