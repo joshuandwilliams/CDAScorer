@@ -143,39 +143,6 @@ TIFF (.tif/.tiff), JPEG (.jpg/.jpeg), and PNG (.png).
 
 For a detailed walkthrough with screenshots, see the [tutorial page](https://joshuandwilliams.github.io/CDAScorer/tutorial/).
 
-## Development
-
-Clone the repository and install the development dependencies:
-
-```bash
-git clone https://github.com/joshuandwilliams/CDAScorer.git
-cd CDAScorer
-pip install -e ".[dev]"
-```
-
-Or set up an isolated conda/mamba environment from the provided spec:
-
-```bash
-mamba env create -f environment.yml
-mamba activate cdascorer
-pip install -e ".[dev]"
-```
-
-Code style is enforced with [ruff](https://docs.astral.sh/ruff/) (linting) and
-[black](https://black.readthedocs.io/) (formatting) via [pre-commit](https://pre-commit.com/).
-Install the git hooks once, then they run automatically on every commit:
-
-```bash
-pre-commit install
-```
-
-Run the checks and the test suite manually:
-
-```bash
-pre-commit run --all-files
-pytest --cov=cdascorer
-```
-
 ## License
 
 Released under the MIT License — see [LICENSE.txt](LICENSE.txt).

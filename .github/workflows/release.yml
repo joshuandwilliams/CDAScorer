@@ -1,6 +1,6 @@
 name: Release
 
-# Publishes the package to PyPI when you push a version tag (e.g. v0.1.0).
+# Publishes the package to PyPI when you push a version tag (e.g. v0.0.1).
 #
 # ── ONE-TIME SETUP (do this once your PyPI account is back) ──────────────
 # Recommended: Trusted Publishing (no API token to store).
